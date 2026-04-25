@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>Dettol | Cinematic Product Journey — The Shield Experience</title>
+    <meta name="description" content="Experience Dettol's complete range in an immersive cinematic showcase. Each product reveals itself with elegant transitions.">
+    <!-- Tailwind CSS + Font Awesome + Google Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fdf4f0; /* Soft pinkish base matching foambg.jpg */
+            overflow-x: hidden;
+        }
+
+        /* Full-screen animated background using foambg.jpg - NO DARK OVERLAY, SOFT PINK BLEND */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background-image: url('foambg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            animation: slowDrift 25s ease-in-out infinite alternate;
+            will-change: transform;
+        }
+
+        @keyframes slowDrift {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
+        }
+
+        /* Each product section - full viewport, optimized for mobile */
+        .cinema-section {
+            position: relative;
+            min-height: 100vh;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5rem 1.25rem;
+            scroll-margin-top: 0px;
+        }
+
+        /* Glassmorphic container - NO visible borders, blends with background */
+        .cinema-container {
+            max-width: 1280px;
+            width: 100%;
+            margin: 0 auto;
+            background: rgba(253, 244, 240, 0.25);
+            backdrop-filter: blur(6px);
+            border-radius: 48px;
+            padding: 2rem 1.8rem;
+            transition: all 0.5s ease;
+            border: none;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Two-column layout for desktop, stacked for mobile */
+        .cinema-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        /* Image side - cinematic reveal, NO visible borders */
+        .cinema-image-side {
+            position: relative;
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cinema-section.active .cinema-image-side {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Images with NO borders - seamless blend with pink background */
+        .product-image {
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+            display: block;
+            filter: drop-shadow(0 0px 0px rgba(0,0,0,0));
+            transition: all 0.5s ease;
+            border-radius: 0px;
+            background: transparent;
+            -webkit-mask-image: radial-gradient(circle, white 90%, transparent 100%);
+            mask-image: radial-gradient(circle, white 90%, transparent 100%);
+        }
+
+        /* Remove any possible border from images */
+        img {
+            border: none;
+            outline: none;
+            background: transparent;
+        }
+
+        .cinema-section.active .product-image {
+            animation: subtleFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes subtleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Text side - cinematic fade */
+        .cinema-text-side {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            transition-delay: 0.2s;
+        }
+
+        .cinema-section.active .cinema-text-side {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Text styling - clean and readable on pinkish background */
+        .cinema-badge {
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: #D45A2B;
+            background: rgba(253, 244, 240, 0.75);
+            backdrop-filter: blur(4px);
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            border: none;
+        }
+
+        .cinema-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 6vw, 3.8rem);
+            font-weight: 800;
+            color: #2C553C;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .cinema-description {
+            color: #3a2a24;
+            line-height: 1.7;
+            font-size: clamp(0.9rem, 3.5vw, 1rem);
+            background: rgba(253, 244, 240, 0.6);
+            backdrop-filter: blur(4px);
+            border-radius: 28px;
+            padding: 1.2rem 1.5rem;
+            border: none;
+        }
+
+        .desc-line {
+            margin: 0.8rem 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: all 0.5s ease;
+        }
+
+        .cinema-section.active .desc-line {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .cinema-section.active .desc-line:nth-child(1) { transition-delay: 0.2s; }
+        .cinema-section.active .desc-line:nth-child(2) { transition-delay: 0.35s; }
+        .cinema-section.active .desc-line:nth-child(3) { transition-delay: 0.5s; }
+        .cinema-section.active .desc-line:nth-child(4) { transition-delay: 0.65s; }
+
+        .desc-line i {
+            width: 28px;
+            color: #D45A2B;
+            font-size: 1.1rem;
+        }
+
+        /* Alternate layout: swap sides for even sections on desktop only */
+        @media (min-width: 1024px) {
+            .cinema-section:nth-child(even) .cinema-grid {
+                direction: rtl;
+            }
+            .cinema-section:nth-child(even) .cinema-grid > * {
+                direction: ltr;
+            }
+        }
+
+        /* Hero section special styling */
+        .hero-section .cinema-container {
+            background: rgba(253, 244, 240, 0.2);
+        }
+
+        .hero-section .cinema-title {
+            font-size: clamp(3rem, 9vw, 6rem);
+            background: linear-gradient(135deg, #2C553C, #D45A2B);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: none;
+        }
+
+        .hero-section .product-image {
+            max-width: 380px;
+            animation: softPulse 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes softPulse {
+            0% { filter: drop-shadow(0 0px 0px rgba(44, 85, 60, 0)); transform: scale(1); }
+            100% { filter: drop-shadow(0 0px 0px rgba(212, 90, 43, 0)); transform: scale(1.02); }
+        }
+
+        /* Scroll progress bar - sweet cinematic timeline */
+        .cinema-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #D45A2B, #4CAF50, #2C553C);
+            z-index: 1000;
+            transition: width 0.08s linear;
+            box-shadow: 0 0 8px #D45A2B;
+        }
+
+        /* Navigation dots - mobile friendly (smaller, touch-friendly) */
+        .cinema-nav {
+            position: fixed;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(44, 85, 60, 0.45);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: #D45A2B;
+            width: 12px;
+            height: 12px;
+            box-shadow: 0 0 10px #D45A2B;
+        }
+
+        /* Scroll hint - sweet and visible */
+        .scroll-hint {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 30;
+            color: #2C553C;
+            font-size: 10px;
+            letter-spacing: 2px;
+            animation: gentleBounce 2s infinite;
+            cursor: pointer;
+            background: rgba(253, 244, 240, 0.8);
+            backdrop-filter: blur(8px);
+            padding: 6px 14px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: none;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        @keyframes gentleBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.8; }
+            50% { transform: translateX(-50%) translateY(8px); opacity: 1; }
+        }
+
+        /* ========== MOBILE & TABLET OPTIMIZATIONS ========== */
+        @media (max-width: 1023px) {
+            .cinema-section {
+                padding: 4rem 1rem;
+                min-height: auto;
+                scroll-margin-top: 20px;
+            }
+            
+            .cinema-grid {
+                grid-template-columns: 1fr;
+                gap: 1.8rem;
+                text-align: center;
+            }
+            
+            .cinema-image-side {
+                transform: translateY(-25px);
+            }
+            
+            .cinema-section.active .cinema-image-side {
+                transform: translateY(0);
+            }
+            
+            .cinema-text-side {
+                transform: translateY(25px);
+            }
+            
+            .cinema-section.active .cinema-text-side {
+                transform: translateY(0);
+            }
+            
+            .desc-line {
+                justify-content: center;
+                flex-wrap: wrap;
+                text-align: left;
+            }
+            
+            .cinema-container {
+                padding: 1.5rem 1.2rem;
+                border-radius: 32px;
+            }
+            
+            .product-image {
+                max-width: 280px;
+            }
+            
+            .hero-section .product-image {
+                max-width: 260px;
+            }
+            
+            .cinema-badge {
+                font-size: 0.65rem;
+                letter-spacing: 3px;
+            }
+            
+            .cinema-description {
+                padding: 1rem 1.2rem;
+            }
+            
+            .desc-line i {
+                width: 24px;
+                font-size: 1rem;
+            }
+            
+            /* Hide navigation dots on mobile for cleaner look, but keep alternative */
+            .cinema-nav {
+                display: none;
+            }
+            
+            /* Add floating progress indicator for mobile */
+            .mobile-scroll-progress {
+                display: block;
+            }
+        }
+        
+        /* Show nav dots on tablets in landscape */
+        @media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape) {
+            .cinema-nav {
+                display: flex;
+            }
+        }
+
+        /* Sweet active section transition for smoother mobile scroll */
+        .cinema-section {
+            transition: opacity 0.3s ease;
+        }
+        
+        /* Image blending - remove sharp edges, smooth radial fade on borders */
+        .cinema-image-side::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, transparent 60%, rgba(253, 244, 240, 0.15) 100%);
+            pointer-events: none;
+            border-radius: 0;
+            z-index: 2;
+        }
+        
+        /* Additional soft edge blending for product images */
+        .product-image {
+            mask-image: radial-gradient(circle at center, black 70%, transparent 98%);
+            -webkit-mask-image: radial-gradient(circle at center, black 70%, transparent 98%);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .animated-bg { animation: none; }
+            * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+        }
+
+        /* Custom scrollbar - soft pink theme */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #fdf4f0; }
+        ::-webkit-scrollbar-thumb { background: #D45A2B; border-radius: 10px; }
+        
+        /* Touch-friendly tap targets */
+        button, .nav-dot, .scroll-hint {
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Smooth focus outlines */
+        :focus-visible {
+            outline: 2px solid #D45A2B;
+            outline-offset: 2px;
+            border-radius: 8px;
+        }
+        
+        /* Footer styling blends with background */
+        footer {
+            border: none;
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Clean Animated Background - pinkish blend, no dark overlay -->
+    <div class="animated-bg"></div>
+
+    <!-- Scroll Progress -->
+    <div class="cinema-progress" id="progressBar"></div>
+
+    <!-- Navigation Dots (desktop friendly) -->
+    <div class="cinema-nav">
+        <div class="nav-dot active" data-section="0"></div>
+        <div class="nav-dot" data-section="1"></div>
+        <div class="nav-dot" data-section="2"></div>
+        <div class="nav-dot" data-section="3"></div>
+        <div class="nav-dot" data-section="4"></div>
+        <div class="nav-dot" data-section="5"></div>
+        <div class="nav-dot" data-section="6"></div>
+        <div class="nav-dot" data-section="7"></div>
+    </div>
+
+    <!-- Hero / Intro Section with intro.jpg -->
+    <section class="cinema-section hero-section" id="section0">
+        <div class="cinema-container">
+            <div class="cinema-grid">
+                <div class="cinema-image-side">
+                    <img src="intro.jpeg" alt="Dettol Shield of Protection" class="product-image" loading="eager">
+                </div>
+                <div class="cinema-text-side">
+                    <span class="cinema-badge"><i class="fas fa-shield-alt mr-2"></i> SINCE 1933</span>
+                    <h1 class="cinema-title">DETTOL</h1>
+                    <div class="cinema-description">
+                        <p class="desc-line"><i class="fas fa-check-circle"></i> Trusted by families for 90+ years</p>
+                        <p class="desc-line"><i class="fas fa-virus-slash"></i> Kills 99.9% of germs & viruses</p>
+                        <p class="desc-line"><i class="fas fa-globe-americas"></i> Used in over 60 countries worldwide</p>
+                        <p class="desc-line"><i class="fas fa-hand-holding-heart"></i> Your shield of protection every day</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-hint">
+            <span>SCROLL TO EXPLORE</span>
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
+
+    <!-- Product 1 - Antiseptic Liquid with antiseptic.jpg -->
+    <section class="cinema-section" id="section1">
+        <div class="cinema-container">
+            <div class="cinema-grid">
+                <div class="cinema-image-side">
+                    <img src="antiseptic.jpg" alt="Dettol Antiseptic Liquid" class="product-image" loading="lazy">
+                </div>
+                <div class="cinema-text-side">
+                    <span class="cinema-badge">FLAGSHIP PROTECTION</span>
+                    <h2 class="cinema-title">Antiseptic Liquid</h2>
+                    <div class="cinema-description">
+                        <p class="desc-line"><i class="fas fa-skull-crosswalk"></i> Kills 99.9% of germs — bacteria, viruses & fungi</p>
+                        <p class="desc-line"><i class="fas fa-hand-holding-medical"></i> First aid, laundry & surface disinfection</p>
+                        <p class="desc-line"><i class="fas fa-tint"></i> Concentrated formula — dilutes for multiple uses</p>
+                        <p class="desc-line"><i class="fas fa-hospital-user"></i> Trusted by hospitals worldwide</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-hint"><i class="fas fa-chevron-down"></i><span>Next product</span></div>
+    </section>
+
+    <!-- Product 2 - Hand Sanitizer with handsr.jpg -->
+    <section class="cinema-section" id="section2">
+        <div class="cinema-container">
+            <div class="cinema-grid">
+                <div class="cinema-image-side">
+                    <img src="handsr.jpg" alt="Dettol Hand Sanitizer" class="product-image" loading="lazy">
+                </div>
+                <div class="cinema-text-side">
+                    <span class="cinema-badge">ON-THE-GO DEFENSE</span>
+                    <h2 class="cinema-title">Instant Hand Sanitizer</h2>
+                    <div class="cinema-description">
+                        <p class="desc-line"><i class="fas fa-water"></i> No water needed — kills germs instantly</p>
+                        <p class="desc-line"><i class="fas fa-leaf"></i> Enriched with Aloe Vera & moisturizers</p>
+                        <p class="desc-line"><i class="fas fa-flask"></i> 70% alcohol — meets WHO standards</p>
+                        <p class="desc-line"><i class="fas fa-briefcase"></i> Pocket-sized for daily protection</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-hint"><i class="fas fa-chevron-down"></i></div>
+    </section>
+
+    <!-- Product 3 - Multi-Surface Spray with mulsurface.jpg -->
+    <section class="cinema-section" id="section3">
+        <div class="cinema-container">
+            <div class="cinema-grid">
+                <div class="cinema-image-side">
+                    <img src="mulsurface.jpg" alt="Dettol Multi-Surface Spray" class="product-image" loading="lazy">
+                </div>
+                <div class="cinema-text-side">
+                    <span class="cinema-badge">360° SURFACE PROTECTION</span>
+                    <h2 class="cinema-title">Multi-Surface Spray</h2>
+                    <div class="cinema-description">
+                        <p class="desc-line"><i class="fas fa-spray-can-sparkles"></i> Eliminates 99.9% of bacteria & viruses</p>
+                        <p class="desc-line"><i class="fas fa-rotate"></i> 360° spray technology — reaches everywhere</p>
+                        <p class="desc-line"><i class="fas fa-couch"></i> Safe for kitchen, toys & upholstery</p>
+                        <p class="desc-line"><i class="fas fa-wind"></i> Fresh citrus scent, no harsh residue</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-hint"><i class="fas fa-chevron-down"></i></div>
+    </section>
+
+    <!-- Product 4 - Antibacterial Soap with hands.jpg -->
+    <section class="cinema-section" id="section4">
+        <div class="cinema-container">
+            <div class="cinema-grid">
+                <div class="cinema-image-side">
+                    <img src="hands.jpg" alt="Dettol Antibacterial Soap" class="product-image" loading="lazy">
+                </div>
+                <div class="cinema-text-side">
+                    <span class="cinema-badge">DAILY ESSENTIAL</span>
+                    <h2 class="cinema-title">Antibacterial Soap</h2>
+                    <div class="cinema-description">
+                        <p class="desc-line"><i class="fas fa-soap"></i> Deep cleansing + germ protection every wash</p>
+                        <p class="desc-line"><i class="fas fa-spa"></i> Signature Dettol freshness that lasts</p>
+                        <p class="desc-line"><i class="fas fa-hand-peace"></i> Dermatologically tested — safe for all</p>
+                        <p class="desc-line"><i class="fas fa-bubbles"></i> Rich lather, rinses clean without drying</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-hint"><i class="fas fa-chevron-down"></i></div>
+    </section>
+
+    <!-- Product 5 - Surface Wipes with surface.jpg -->
+    <section class="cinema-section" id="section5">
+        <div class="cinema-container">
+            <div class="cinema-grid">
+                <div class="cinema-image-side">
+                    <img src="surface.jpg" alt="Dettol Surface Wipes" class="product-image" loading="lazy">
+                </div>
+                <div class="cinema-text-side">
+                    <span class="cinema-badge">INSTANT CLEAN</span>
+                    <h2 class="cinema-title">Surface Wipes</h2>
+                    <div class="cinema-description">
+                        <p class="desc-line"><i class="fas fa-wipe"></i> Kills 99.9% of germs in 30 seconds</p>
+                        <p class="desc-line"><i class="fas fa-mobile-alt"></i> Perfect for phones, remotes & keyboards</p>
+                        <p class="desc-line"><i class="fas fa-lemon"></i> Lemon scent — fresh & clean</p>
+                        <p class="desc-line"><i class="fas fa-box-open"></i> 80 wipes per pack, resealable</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-hint"><i class="fas fa-chevron-down"></i></div>
+    </section>
+
+    <!-- Product 6 - Laundry Sanitizer with laundry.jpg -->
+    <section class="cinema-section" id="section6">
+        <div class="cinema-container">
+            <div class="cinema-grid">
+                <div class="cinema-image-side">
+                    <img src="laundry.jpg" alt="Dettol Laundry Sanitizer" class="product-image" loading="lazy">
+                </div>
+                <div class="cinema-text-side">
+                    <span class="cinema-badge">DEEPER CLEAN</span>
+                    <h2 class="cinema-title">Laundry Sanitizer</h2>
+                    <div class="cinema-description">
+                        <p class="desc-line"><i class="fas fa-tshirt"></i> Kills 99.9% of bacteria, even at 20°C</p>
+                        <p class="desc-line"><i class="fas fa-running"></i> Removes odor-causing germs from sportswear</p>
+                        <p class="desc-line"><i class="fas fa-bucket"></i> Works with all detergents — add to rinse</p>
+                        <p class="desc-line"><i class="fas fa-feather-alt"></i> Gentle on fabrics, tough on germs</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-hint"><i class="fas fa-chevron-down"></i></div>
+    </section>
+
+    <!-- Science / Trust Section with lab.jpg -->
+    <section class="cinema-section" id="section7">
+        <div class="cinema-container">
+            <div class="cinema-grid">
+                <div class="cinema-image-side">
+                    <img src="lab.jpg" alt="Dettol Scientific Research" class="product-image" loading="lazy">
+                </div>
+                <div class="cinema-text-side">
+                    <span class="cinema-badge">THE SCIENCE BEHIND</span>
+                    <h2 class="cinema-title">Proven Protection</h2>
+                    <div class="cinema-description">
+                        <p class="desc-line"><i class="fas fa-microscope"></i> Clinically tested in thousands of studies</p>
+                        <p class="desc-line"><i class="fas fa-chart-line"></i> Trusted by healthcare professionals globally</p>
+                        <p class="desc-line"><i class="fas fa-globe-asia"></i> Available in over 60 countries</p>
+                        <p class="desc-line"><i class="fas fa-award"></i> #1 recommended germ protection brand</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer - blends seamlessly -->
+    <footer class="text-center py-8 text-gray-600 text-sm relative z-10 bg-[#fdf4f0]/50 backdrop-blur-sm mt-4">
+        <div class="max-w-6xl mx-auto px-4">
+            <i class="fas fa-shield-virus text-2xl text-[#D45A2B] mb-3 block opacity-80"></i>
+            <p>© 2025 Dettol — A cinematic journey through complete protection. 99.9% germ kill. Trusted worldwide.</p>
+            <div class="flex justify-center gap-6 mt-4">
+                <i class="fab fa-facebook-f hover:text-[#2C553C] cursor-pointer transition text-lg"></i>
+                <i class="fab fa-instagram hover:text-[#2C553C] cursor-pointer transition text-lg"></i>
+                <i class="fab fa-twitter hover:text-[#2C553C] cursor-pointer transition text-lg"></i>
+                <i class="fab fa-youtube hover:text-[#2C553C] cursor-pointer transition text-lg"></i>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        (function() {
+            const sections = document.querySelectorAll('.cinema-section');
+            const navDots = document.querySelectorAll('.nav-dot');
+            const progressBar = document.getElementById('progressBar');
+            
+            // Throttled update function for scroll events (performance)
+            let ticking = false;
+            let lastScrollY = 0;
+            
+            function updateActiveSection() {
+                const scrollPosition = window.scrollY + window.innerHeight * 0.42;
+                
+                sections.forEach((section, index) => {
+                    const sectionTop = section.offsetTop;
+                    const sectionBottom = sectionTop + section.offsetHeight;
+                    
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+                        if (!section.classList.contains('active')) {
+                            section.classList.add('active');
+                        }
+                        navDots.forEach(dot => dot.classList.remove('active'));
+                        if (navDots[index]) navDots[index].classList.add('active');
+                    } else {
+                        if (section.classList.contains('active')) {
+                            section.classList.remove('active');
+                        }
+                    }
+                });
+                
+                // Update progress bar
+                const totalHeight = document.body.scrollHeight - window.innerHeight;
+                const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
+                progressBar.style.width = Math.min(100, Math.max(0, progress)) + '%';
+            }
+            
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    requestAnimationFrame(() => {
+                        updateActiveSection();
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            });
+            
+            // Initialize
+            setTimeout(() => {
+                updateActiveSection();
+                // Ensure first section is visible
+                if (sections[0]) sections[0].classList.add('active');
+            }, 100);
+            
+            // Navigation dot click - smooth scroll
+            navDots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    if (sections[index]) {
+                        sections[index].scrollIntoView({ 
+                            behavior: 'smooth', 
+                            block: 'start',
+                            inline: 'nearest'
+                        });
+                    }
+                });
+            });
+            
+            // Scroll hint click - go to next section (sweet mobile navigation)
+            const scrollHints = document.querySelectorAll('.scroll-hint');
+            scrollHints.forEach((hint, idx) => {
+                hint.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const nextSection = sections[idx + 1];
+                    if (nextSection) {
+                        nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                });
+            });
+            
+            // Preload background image for smoothness
+            const bgImg = new Image();
+            bgImg.src = 'foambg.jpg';
+            
+            // Optional: add resize listener to recalc on orientation change
+            window.addEventListener('resize', () => {
+                setTimeout(updateActiveSection, 100);
+            });
+            
+            // For mobile: ensure active detection after orientation change
+            window.addEventListener('orientationchange', () => {
+                setTimeout(updateActiveSection, 200);
+            });
+            
+            // Add a class to body after load for any progressive enhancements
+            window.addEventListener('load', () => {
+                document.body.classList.add('loaded');
+                updateActiveSection();
+            });
+        })();
+    </script>
+</body>
+</html>
