@@ -18,11 +18,11 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #fdf4f0; /* Soft pinkish base matching foambg.jpg */
+            background: #fdf4f0;
             overflow-x: hidden;
         }
 
-        /* Full-screen animated background using foambg.jpg - NO DARK OVERLAY, SOFT PINK BLEND */
+        /* Full-screen animated background */
         .animated-bg {
             position: fixed;
             top: 0;
@@ -43,7 +43,7 @@
             100% { transform: scale(1.05); }
         }
 
-        /* Each product section - full viewport, optimized for mobile */
+        /* Each product section */
         .cinema-section {
             position: relative;
             min-height: 100vh;
@@ -55,7 +55,7 @@
             scroll-margin-top: 0px;
         }
 
-        /* Glassmorphic container - NO visible borders, blends with background */
+        /* Glassmorphic container */
         .cinema-container {
             max-width: 1280px;
             width: 100%;
@@ -69,7 +69,7 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
         }
 
-        /* Two-column layout for desktop, stacked for mobile */
+        /* Two-column layout */
         .cinema-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -77,7 +77,7 @@
             align-items: center;
         }
 
-        /* Image side - cinematic reveal, NO visible borders */
+        /* Image side */
         .cinema-image-side {
             position: relative;
             opacity: 0;
@@ -93,21 +93,21 @@
             transform: translateX(0);
         }
 
-        /* Images with NO borders - seamless blend with pink background */
+        /* Images with soft blending */
         .product-image {
             width: 100%;
             max-width: 420px;
             margin: 0 auto;
             display: block;
-            filter: drop-shadow(0 0px 0px rgba(0,0,0,0));
             transition: all 0.5s ease;
             border-radius: 0px;
             background: transparent;
-            -webkit-mask-image: radial-gradient(circle, white 90%, transparent 100%);
-            mask-image: radial-gradient(circle, white 90%, transparent 100%);
+            filter: drop-shadow(0 0px 0px rgba(0,0,0,0));
+            /* Soft edge blending */
+            mask-image: radial-gradient(circle at center, black 70%, transparent 98%);
+            -webkit-mask-image: radial-gradient(circle at center, black 70%, transparent 98%);
         }
 
-        /* Remove any possible border from images */
         img {
             border: none;
             outline: none;
@@ -123,7 +123,7 @@
             50% { transform: translateY(-10px); }
         }
 
-        /* Text side - cinematic fade */
+        /* Text side */
         .cinema-text-side {
             opacity: 0;
             transform: translateX(30px);
@@ -136,7 +136,7 @@
             transform: translateX(0);
         }
 
-        /* Text styling - clean and readable on pinkish background */
+        /* Text styling */
         .cinema-badge {
             font-size: 0.7rem;
             letter-spacing: 4px;
@@ -198,7 +198,7 @@
             font-size: 1.1rem;
         }
 
-        /* Alternate layout: swap sides for even sections on desktop only */
+        /* Alternate layout for desktop even sections */
         @media (min-width: 1024px) {
             .cinema-section:nth-child(even) .cinema-grid {
                 direction: rtl;
@@ -208,7 +208,7 @@
             }
         }
 
-        /* Hero section special styling */
+        /* Hero section */
         .hero-section .cinema-container {
             background: rgba(253, 244, 240, 0.2);
         }
@@ -228,11 +228,11 @@
         }
 
         @keyframes softPulse {
-            0% { filter: drop-shadow(0 0px 0px rgba(44, 85, 60, 0)); transform: scale(1); }
-            100% { filter: drop-shadow(0 0px 0px rgba(212, 90, 43, 0)); transform: scale(1.02); }
+            0% { transform: scale(1); }
+            100% { transform: scale(1.02); }
         }
 
-        /* Scroll progress bar - sweet cinematic timeline */
+        /* Scroll progress bar */
         .cinema-progress {
             position: fixed;
             top: 0;
@@ -245,7 +245,7 @@
             box-shadow: 0 0 8px #D45A2B;
         }
 
-        /* Navigation dots - mobile friendly (smaller, touch-friendly) */
+        /* Navigation dots */
         .cinema-nav {
             position: fixed;
             right: 16px;
@@ -273,7 +273,7 @@
             box-shadow: 0 0 10px #D45A2B;
         }
 
-        /* Scroll hint - sweet and visible */
+        /* Scroll hint */
         .scroll-hint {
             position: absolute;
             bottom: 20px;
@@ -302,12 +302,11 @@
             50% { transform: translateX(-50%) translateY(8px); opacity: 1; }
         }
 
-        /* ========== MOBILE & TABLET OPTIMIZATIONS ========== */
+        /* Mobile optimizations */
         @media (max-width: 1023px) {
             .cinema-section {
                 padding: 4rem 1rem;
                 min-height: auto;
-                scroll-margin-top: 20px;
             }
             
             .cinema-grid {
@@ -351,44 +350,12 @@
                 max-width: 260px;
             }
             
-            .cinema-badge {
-                font-size: 0.65rem;
-                letter-spacing: 3px;
-            }
-            
-            .cinema-description {
-                padding: 1rem 1.2rem;
-            }
-            
-            .desc-line i {
-                width: 24px;
-                font-size: 1rem;
-            }
-            
-            /* Hide navigation dots on mobile for cleaner look, but keep alternative */
             .cinema-nav {
                 display: none;
             }
-            
-            /* Add floating progress indicator for mobile */
-            .mobile-scroll-progress {
-                display: block;
-            }
         }
         
-        /* Show nav dots on tablets in landscape */
-        @media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape) {
-            .cinema-nav {
-                display: flex;
-            }
-        }
-
-        /* Sweet active section transition for smoother mobile scroll */
-        .cinema-section {
-            transition: opacity 0.3s ease;
-        }
-        
-        /* Image blending - remove sharp edges, smooth radial fade on borders */
+        /* Soft edge blending for images */
         .cinema-image-side::before {
             content: '';
             position: absolute;
@@ -398,14 +365,7 @@
             bottom: 0;
             background: radial-gradient(ellipse at center, transparent 60%, rgba(253, 244, 240, 0.15) 100%);
             pointer-events: none;
-            border-radius: 0;
             z-index: 2;
-        }
-        
-        /* Additional soft edge blending for product images */
-        .product-image {
-            mask-image: radial-gradient(circle at center, black 70%, transparent 98%);
-            -webkit-mask-image: radial-gradient(circle at center, black 70%, transparent 98%);
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -413,40 +373,30 @@
             * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
         }
 
-        /* Custom scrollbar - soft pink theme */
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #fdf4f0; }
         ::-webkit-scrollbar-thumb { background: #D45A2B; border-radius: 10px; }
         
-        /* Touch-friendly tap targets */
         button, .nav-dot, .scroll-hint {
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
         }
         
-        /* Smooth focus outlines */
-        :focus-visible {
-            outline: 2px solid #D45A2B;
-            outline-offset: 2px;
-            border-radius: 8px;
-        }
-        
-        /* Footer styling blends with background */
-        footer {
-            border: none;
-            box-shadow: none;
+        /* Image error fallback style */
+        .product-image {
+            object-fit: contain;
         }
     </style>
 </head>
 <body>
 
-    <!-- Clean Animated Background - pinkish blend, no dark overlay -->
+    <!-- Animated Background -->
     <div class="animated-bg"></div>
 
     <!-- Scroll Progress -->
     <div class="cinema-progress" id="progressBar"></div>
 
-    <!-- Navigation Dots (desktop friendly) -->
+    <!-- Navigation Dots -->
     <div class="cinema-nav">
         <div class="nav-dot active" data-section="0"></div>
         <div class="nav-dot" data-section="1"></div>
@@ -458,12 +408,12 @@
         <div class="nav-dot" data-section="7"></div>
     </div>
 
-    <!-- Hero / Intro Section with intro.jpg -->
+    <!-- Hero / Intro Section - intro.jpeg (note .jpeg extension) -->
     <section class="cinema-section hero-section" id="section0">
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="intro.jpeg" alt="Dettol Shield of Protection" class="product-image" loading="eager">
+                    <img src="intro.jpeg" alt="Dettol Shield of Protection" class="product-image" loading="eager" onerror="this.style.display='block';this.src='https://placehold.co/400x400/fdf4f0/D45A2B?text=Dettol+Intro'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge"><i class="fas fa-shield-alt mr-2"></i> SINCE 1933</span>
@@ -483,12 +433,12 @@
         </div>
     </section>
 
-    <!-- Product 1 - Antiseptic Liquid with antiseptic.jpg -->
+    <!-- Product 1 - Antiseptic Liquid - antiseptic.jpg -->
     <section class="cinema-section" id="section1">
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="antiseptic.jpg" alt="Dettol Antiseptic Liquid" class="product-image" loading="lazy">
+                    <img src="antiseptic.jpg" alt="Dettol Antiseptic Liquid" class="product-image" loading="lazy" onerror="this.style.display='block';this.src='https://placehold.co/400x400/fdf4f0/D45A2B?text=Antiseptic+Liquid'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">FLAGSHIP PROTECTION</span>
@@ -505,12 +455,12 @@
         <div class="scroll-hint"><i class="fas fa-chevron-down"></i><span>Next product</span></div>
     </section>
 
-    <!-- Product 2 - Hand Sanitizer with handsr.jpg -->
+    <!-- Product 2 - Hand Sanitizer - handsr.jpg -->
     <section class="cinema-section" id="section2">
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="handsr.jpg" alt="Dettol Hand Sanitizer" class="product-image" loading="lazy">
+                    <img src="handsr.jpg" alt="Dettol Hand Sanitizer" class="product-image" loading="lazy" onerror="this.style.display='block';this.src='https://placehold.co/400x400/fdf4f0/D45A2B?text=Hand+Sanitizer'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">ON-THE-GO DEFENSE</span>
@@ -527,12 +477,12 @@
         <div class="scroll-hint"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- Product 3 - Multi-Surface Spray with mulsurface.jpg -->
+    <!-- Product 3 - Multi-Surface Spray - mulsurface.jpg -->
     <section class="cinema-section" id="section3">
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="mulsurface.jpg" alt="Dettol Multi-Surface Spray" class="product-image" loading="lazy">
+                    <img src="mulsurface.jpg" alt="Dettol Multi-Surface Spray" class="product-image" loading="lazy" onerror="this.style.display='block';this.src='https://placehold.co/400x400/fdf4f0/D45A2B?text=Multi-Surface+Spray'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">360° SURFACE PROTECTION</span>
@@ -549,12 +499,12 @@
         <div class="scroll-hint"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- Product 4 - Antibacterial Soap with hands.jpg -->
+    <!-- Product 4 - Antibacterial Soap - hands.jpg -->
     <section class="cinema-section" id="section4">
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="hands.jpg" alt="Dettol Antibacterial Soap" class="product-image" loading="lazy">
+                    <img src="hands.jpg" alt="Dettol Antibacterial Soap" class="product-image" loading="lazy" onerror="this.style.display='block';this.src='https://placehold.co/400x400/fdf4f0/D45A2B?text=Antibacterial+Soap'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">DAILY ESSENTIAL</span>
@@ -571,12 +521,12 @@
         <div class="scroll-hint"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- Product 5 - Surface Wipes with surface.jpg -->
+    <!-- Product 5 - Surface Wipes - surface.jpg -->
     <section class="cinema-section" id="section5">
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="surface.jpg" alt="Dettol Surface Wipes" class="product-image" loading="lazy">
+                    <img src="surface.jpg" alt="Dettol Surface Wipes" class="product-image" loading="lazy" onerror="this.style.display='block';this.src='https://placehold.co/400x400/fdf4f0/D45A2B?text=Surface+Wipes'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">INSTANT CLEAN</span>
@@ -593,12 +543,12 @@
         <div class="scroll-hint"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- Product 6 - Laundry Sanitizer with laundry.jpg -->
+    <!-- Product 6 - Laundry Sanitizer - laundry.jpg -->
     <section class="cinema-section" id="section6">
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="laundry.jpg" alt="Dettol Laundry Sanitizer" class="product-image" loading="lazy">
+                    <img src="laundry.jpg" alt="Dettol Laundry Sanitizer" class="product-image" loading="lazy" onerror="this.style.display='block';this.src='https://placehold.co/400x400/fdf4f0/D45A2B?text=Laundry+Sanitizer'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">DEEPER CLEAN</span>
@@ -615,12 +565,12 @@
         <div class="scroll-hint"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- Science / Trust Section with lab.jpg -->
+    <!-- Science / Trust Section - lab.jpg -->
     <section class="cinema-section" id="section7">
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="lab.jpg" alt="Dettol Scientific Research" class="product-image" loading="lazy">
+                    <img src="lab.jpg" alt="Dettol Scientific Research" class="product-image" loading="lazy" onerror="this.style.display='block';this.src='https://placehold.co/400x400/fdf4f0/D45A2B?text=Science+Lab'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">THE SCIENCE BEHIND</span>
@@ -636,7 +586,7 @@
         </div>
     </section>
 
-    <!-- Footer - blends seamlessly -->
+    <!-- Footer -->
     <footer class="text-center py-8 text-gray-600 text-sm relative z-10 bg-[#fdf4f0]/50 backdrop-blur-sm mt-4">
         <div class="max-w-6xl mx-auto px-4">
             <i class="fas fa-shield-virus text-2xl text-[#D45A2B] mb-3 block opacity-80"></i>
@@ -656,9 +606,14 @@
             const navDots = document.querySelectorAll('.nav-dot');
             const progressBar = document.getElementById('progressBar');
             
-            // Throttled update function for scroll events (performance)
+            // Log image paths for debugging (remove in production)
+            console.log('Looking for images in current directory:');
+            const images = document.querySelectorAll('.product-image');
+            images.forEach(img => {
+                console.log('Image src:', img.src);
+            });
+            
             let ticking = false;
-            let lastScrollY = 0;
             
             function updateActiveSection() {
                 const scrollPosition = window.scrollY + window.innerHeight * 0.42;
@@ -680,7 +635,6 @@
                     }
                 });
                 
-                // Update progress bar
                 const totalHeight = document.body.scrollHeight - window.innerHeight;
                 const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
                 progressBar.style.width = Math.min(100, Math.max(0, progress)) + '%';
@@ -696,14 +650,12 @@
                 }
             });
             
-            // Initialize
             setTimeout(() => {
                 updateActiveSection();
-                // Ensure first section is visible
                 if (sections[0]) sections[0].classList.add('active');
             }, 100);
             
-            // Navigation dot click - smooth scroll
+            // Navigation dot click
             navDots.forEach((dot, index) => {
                 dot.addEventListener('click', () => {
                     if (sections[index]) {
@@ -716,7 +668,7 @@
                 });
             });
             
-            // Scroll hint click - go to next section (sweet mobile navigation)
+            // Scroll hint click
             const scrollHints = document.querySelectorAll('.scroll-hint');
             scrollHints.forEach((hint, idx) => {
                 hint.addEventListener('click', (e) => {
@@ -728,21 +680,18 @@
                 });
             });
             
-            // Preload background image for smoothness
+            // Preload background
             const bgImg = new Image();
             bgImg.src = 'foambg.jpg';
             
-            // Optional: add resize listener to recalc on orientation change
             window.addEventListener('resize', () => {
                 setTimeout(updateActiveSection, 100);
             });
             
-            // For mobile: ensure active detection after orientation change
             window.addEventListener('orientationchange', () => {
                 setTimeout(updateActiveSection, 200);
             });
             
-            // Add a class to body after load for any progressive enhancements
             window.addEventListener('load', () => {
                 document.body.classList.add('loaded');
                 updateActiveSection();
