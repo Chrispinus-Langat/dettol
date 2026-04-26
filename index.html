@@ -118,25 +118,27 @@
             perspective: 1000px;
         }
 
-        /* Image wrapper with dramatic reveal */
+        /* Image wrapper with dramatic reveal - UNIFORM SIZE FIX */
         .image-cinema-wrapper {
             position: relative;
             width: 100%;
-            max-width: 420px;
+            max-width: 450px;
+            min-width: 280px;
             margin: 0 auto;
             transform-style: preserve-3d;
             transition: all 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.2);
         }
 
-        /* Main product image - uniform size */
+        /* Main product image - UNIFORM SIZE: fixed width, consistent aspect ratio */
         .product-image {
             width: 100%;
-            height: auto;
-            aspect-ratio: 1 / 1;
+            height: 380px;
             max-width: 400px;
+            min-width: 260px;
             margin: 0 auto;
             display: block;
             object-fit: contain;
+            object-position: center;
             transition: all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.2);
             /* Soft edge blending */
             mask-image: radial-gradient(ellipse at center, black 70%, transparent 98%);
@@ -144,7 +146,7 @@
             filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
         }
 
-        /* Image Entrance Animation - dramatic zoom and rotate */
+        /* Image Entrance Animation */
         .cinema-section .image-cinema-wrapper {
             opacity: 0;
             transform: scale(0.7) rotateY(-15deg);
@@ -156,9 +158,9 @@
             transform: scale(1) rotateY(0deg);
         }
 
-        /* After entrance: image gracefully shrinks and moves to side */
+        /* After entrance: image gracefully adjusts */
         .cinema-section.active .product-image {
-            transform: scale(0.85) translateX(-5%);
+            transform: scale(0.92);
             filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.08));
             transition: all 1s cubic-bezier(0.3, 0.9, 0.2, 1);
             transition-delay: 0.3s;
@@ -171,7 +173,7 @@
         }
 
         .cinema-section.active .image-cinema-wrapper:hover .product-image {
-            transform: scale(1.1) translateX(0);
+            transform: scale(1.08);
             filter: drop-shadow(0 20px 35px rgba(212, 90, 43, 0.3));
             transition: all 0.4s ease;
         }
@@ -292,10 +294,6 @@
             color: transparent;
         }
 
-        .hero-section.active .product-image {
-            transform: scale(0.9);
-        }
-
         /* Scroll Progress */
         .cinema-progress {
             position: fixed;
@@ -363,7 +361,7 @@
             50% { transform: translateX(-50%) translateY(10px); opacity: 1; }
         }
 
-        /* ========== MOBILE OPTIMIZATIONS ========== */
+        /* ========== MOBILE OPTIMIZATIONS WITH UNIFORM IMAGES ========== */
         @media (max-width: 1023px) {
             .cinema-section {
                 padding: 3rem 1rem;
@@ -376,7 +374,18 @@
                 text-align: center;
             }
             
-            /* Mobile image animation adjustments */
+            /* Mobile image uniform sizing */
+            .product-image {
+                height: 280px;
+                max-width: 280px;
+                min-width: 220px;
+            }
+            
+            .image-cinema-wrapper {
+                max-width: 300px;
+            }
+            
+            /* Mobile animation adjustments */
             .cinema-section .image-cinema-wrapper {
                 transform: scale(0.8) rotateY(0deg);
             }
@@ -386,11 +395,11 @@
             }
             
             .cinema-section.active .product-image {
-                transform: scale(0.92) translateX(0);
+                transform: scale(0.95);
             }
             
             .cinema-section.active .image-cinema-wrapper:hover .product-image {
-                transform: scale(1.02) translateX(0);
+                transform: scale(1.02);
             }
             
             .cinema-text-side {
@@ -405,11 +414,6 @@
             .cinema-container {
                 padding: 1.5rem;
                 border-radius: 36px;
-            }
-            
-            .product-image {
-                max-width: 260px;
-                aspect-ratio: 1 / 1;
             }
             
             .cinema-nav {
@@ -434,7 +438,13 @@
             }
             
             .product-image {
+                height: 220px;
                 max-width: 220px;
+                min-width: 180px;
+            }
+            
+            .image-cinema-wrapper {
+                max-width: 240px;
             }
             
             .cinema-title {
@@ -449,6 +459,18 @@
             .desc-line i {
                 width: 22px;
                 font-size: 0.9rem;
+            }
+        }
+
+        /* Tablet landscape */
+        @media (min-width: 768px) and (max-width: 1023px) and (orientation: landscape) {
+            .product-image {
+                height: 260px;
+                max-width: 260px;
+            }
+            .cinema-section {
+                min-height: auto;
+                padding: 2rem;
             }
         }
 
@@ -511,7 +533,7 @@
                 </div>
             </div>
         </div>
-        <div class="scroll-hint"><span>Scroll</span><i class="fas fa-chevron-down"></i></div>
+        <div class="scroll-hint"><span>SCROLL</span><i class="fas fa-chevron-down"></i></div>
     </section>
 
     <!-- Product 1 - Antiseptic Liquid -->
@@ -535,7 +557,7 @@
                 </div>
             </div>
         </div>
-        <div class="scroll-hint"><i class="fas fa-chevron-down"></i><span></span></div>
+        <div class="scroll-hint"><i class="fas fa-chevron-down"></i></div>
     </section>
 
     <!-- Product 2 - Hand Sanitizer -->
@@ -685,7 +707,7 @@
     <footer class="text-center py-8 text-gray-600 text-sm relative z-10 bg-[#fdf4f0]/30 backdrop-blur-sm mt-4">
         <div class="max-w-6xl mx-auto px-4">
             <i class="fas fa-shield-virus text-2xl text-[#D45A2B] mb-3 block opacity-70"></i>
-            <p>© chrispinuslangat631@gmail.com 2026 Dettol — A dettol journey through complete protection. 99.9% germ kill. Trusted worldwide.</p>
+            <p>© 2025 Dettol — A cinematic journey through complete protection. 99.9% germ kill. Trusted worldwide.</p>
             <div class="flex justify-center gap-6 mt-4">
                 <i class="fab fa-facebook-f hover:text-[#D45A2B] cursor-pointer transition text-lg"></i>
                 <i class="fab fa-instagram hover:text-[#D45A2B] cursor-pointer transition text-lg"></i>
@@ -742,7 +764,7 @@
                 if (sections[0]) sections[0].classList.add('active');
             }, 100);
             
-            // Navigation
+            // Navigation dots click
             navDots.forEach((dot, index) => {
                 dot.addEventListener('click', () => {
                     if (sections[index]) {
@@ -751,7 +773,7 @@
                 });
             });
             
-            // Scroll hints
+            // Scroll hints click
             const scrollHints = document.querySelectorAll('.scroll-hint');
             scrollHints.forEach((hint, idx) => {
                 hint.addEventListener('click', (e) => {
