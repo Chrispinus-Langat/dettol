@@ -33,27 +33,40 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            animation: slowDrift 25s ease-in-out infinite alternate;
+            animation: slowDrift 30s ease-in-out infinite alternate;
         }
 
         @keyframes slowDrift {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.05); }
+            0% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.03); filter: brightness(1.02); }
+            100% { transform: scale(1); filter: brightness(1); }
         }
 
-        /* Ambient floating particles for cinematic feel */
-        .ambient-particle {
+        /* Cinematic overlay gradient */
+        .cinematic-overlay {
             position: fixed;
-            border-radius: 50%;
-            background: rgba(212, 90, 43, 0.15);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 40%, rgba(253, 244, 240, 0.15) 100%);
             pointer-events: none;
             z-index: -1;
-            animation: floatParticle 12s infinite ease-in-out;
         }
 
-        @keyframes floatParticle {
+        /* Floating light particles */
+        .light-particle {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212, 90, 43, 0.2), transparent);
+            pointer-events: none;
+            z-index: -1;
+            animation: floatLight 15s infinite ease-in-out;
+        }
+
+        @keyframes floatLight {
             0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
-            50% { transform: translateY(-50px) translateX(30px); opacity: 0.6; }
+            50% { transform: translateY(-60px) translateX(40px); opacity: 0.7; }
         }
 
         /* Cinema Sections */
@@ -64,31 +77,31 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 5rem 1.5rem;
+            padding: 4rem 2rem;
             scroll-margin-top: 0px;
-            perspective: 1200px;
         }
 
-        /* Glassmorphic Container */
+        /* Glass Container */
         .cinema-container {
             max-width: 1300px;
             width: 100%;
             margin: 0 auto;
-            background: rgba(253, 244, 240, 0.2);
-            backdrop-filter: blur(4px);
-            border-radius: 60px;
-            padding: 2rem 2rem;
-            transition: all 0.6s ease;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+            background: rgba(253, 244, 240, 0.15);
+            backdrop-filter: blur(5px);
+            border-radius: 56px;
+            padding: 2.5rem;
+            transition: all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border: 1px solid rgba(255, 255, 255, 0.25);
         }
 
         .cinema-section.active .cinema-container {
-            background: rgba(253, 244, 240, 0.25);
-            backdrop-filter: blur(6px);
+            background: rgba(253, 244, 240, 0.22);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
         }
 
-        /* Two-column layout */
+        /* Grid Layout */
         .cinema-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -96,87 +109,107 @@
             align-items: center;
         }
 
-        /* IMAGE SIDE - With Cinematic Reveal Animation */
+        /* ========== DRAMATIC IMAGE ANIMATIONS ========== */
         .cinema-image-side {
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Initial state: visible, full opacity */
-            opacity: 1;
-            transform: scale(1);
-            transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            perspective: 1000px;
         }
 
-        /* When section becomes active: image fades gently into background */
-        .cinema-section.active .cinema-image-side {
-            opacity: 0.15;
-            transform: scale(0.92);
-            filter: blur(2px);
-            transition: all 1.2s cubic-bezier(0.3, 0.9, 0.2, 1.1);
+        /* Image wrapper with dramatic reveal */
+        .image-cinema-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 420px;
+            margin: 0 auto;
+            transform-style: preserve-3d;
+            transition: all 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.2);
         }
 
-        /* On hover: image dramatically reappears */
-        .cinema-section.active .cinema-image-side:hover {
-            opacity: 1;
-            transform: scale(1.02);
-            filter: blur(0px);
-            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.2);
-        }
-
-        /* Uniform Image Sizing - all images same dimensions */
+        /* Main product image - uniform size */
         .product-image {
             width: 100%;
-            max-width: 380px;
-            height: 380px;
-            object-fit: contain;
+            height: auto;
+            aspect-ratio: 1 / 1;
+            max-width: 400px;
             margin: 0 auto;
             display: block;
-            transition: all 0.5s ease;
-            /* Soft edge blending - NO sharp vertices */
-            mask-image: radial-gradient(ellipse at center, black 65%, transparent 98%);
-            -webkit-mask-image: radial-gradient(ellipse at center, black 65%, transparent 98%);
-            filter: drop-shadow(0 0px 0px rgba(0,0,0,0));
+            object-fit: contain;
+            transition: all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            /* Soft edge blending */
+            mask-image: radial-gradient(ellipse at center, black 70%, transparent 98%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 70%, transparent 98%);
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
         }
 
-        /* Responsive image sizing */
-        @media (max-width: 768px) {
-            .product-image {
-                max-width: 260px;
-                height: 260px;
-            }
+        /* Image Entrance Animation - dramatic zoom and rotate */
+        .cinema-section .image-cinema-wrapper {
+            opacity: 0;
+            transform: scale(0.7) rotateY(-15deg);
+            transition: all 0.9s cubic-bezier(0.2, 0.9, 0.4, 1.2);
         }
 
-        @media (min-width: 1200px) {
-            .product-image {
-                max-width: 420px;
-                height: 420px;
-            }
+        .cinema-section.active .image-cinema-wrapper {
+            opacity: 1;
+            transform: scale(1) rotateY(0deg);
         }
 
-        /* TEXT SIDE - appears after image fades */
+        /* After entrance: image gracefully shrinks and moves to side */
+        .cinema-section.active .product-image {
+            transform: scale(0.85) translateX(-5%);
+            filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.08));
+            transition: all 1s cubic-bezier(0.3, 0.9, 0.2, 1);
+            transition-delay: 0.3s;
+        }
+
+        /* On Hover: image comes back to life dramatically */
+        .cinema-section.active .image-cinema-wrapper:hover {
+            transform: scale(1.05) rotateY(0deg);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+        }
+
+        .cinema-section.active .image-cinema-wrapper:hover .product-image {
+            transform: scale(1.1) translateX(0);
+            filter: drop-shadow(0 20px 35px rgba(212, 90, 43, 0.3));
+            transition: all 0.4s ease;
+        }
+
+        /* Cinematic glow effect on hover */
+        .cinema-section.active .image-cinema-wrapper:hover::before {
+            content: '';
+            position: absolute;
+            top: -20%;
+            left: -20%;
+            width: 140%;
+            height: 140%;
+            background: radial-gradient(circle, rgba(212, 90, 43, 0.15), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: glowPulse 1.5s ease-out;
+        }
+
+        @keyframes glowPulse {
+            0% { opacity: 0; transform: scale(0.5); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        /* TEXT SIDE - elegant fade up */
         .cinema-text-side {
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.9s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.2);
             transition-delay: 0s;
         }
 
-        /* When section becomes active: text fades in beautifully */
         .cinema-section.active .cinema-text-side {
             opacity: 1;
             transform: translateY(0);
-            transition-delay: 0.5s;
+            transition-delay: 0.6s;
         }
 
-        /* On hover: text slightly enhances for readability */
-        .cinema-section.active .cinema-image-side:hover ~ .cinema-text-side,
-        .cinema-section.active:hover .cinema-text-side {
-            opacity: 0.95;
-            transform: translateY(0);
-        }
-
-        /* Text Styling */
+        /* Text styling */
         .cinema-badge {
             font-size: 0.7rem;
             letter-spacing: 5px;
@@ -185,7 +218,7 @@
             display: inline-block;
             margin-bottom: 1rem;
             color: #D45A2B;
-            background: rgba(253, 244, 240, 0.7);
+            background: rgba(253, 244, 240, 0.8);
             backdrop-filter: blur(4px);
             padding: 0.4rem 1.2rem;
             border-radius: 40px;
@@ -203,19 +236,20 @@
         .cinema-description {
             color: #3a2a24;
             line-height: 1.7;
-            background: rgba(253, 244, 240, 0.55);
+            background: rgba(253, 244, 240, 0.6);
             backdrop-filter: blur(4px);
             border-radius: 28px;
             padding: 1.3rem 1.8rem;
         }
 
+        /* Staggered desc lines */
         .desc-line {
             margin: 0.8rem 0;
             display: flex;
             align-items: center;
             gap: 12px;
             opacity: 0;
-            transform: translateX(-15px);
+            transform: translateX(-20px);
             transition: all 0.5s ease;
         }
 
@@ -224,10 +258,10 @@
             transform: translateX(0);
         }
 
-        .cinema-section.active .desc-line:nth-child(1) { transition-delay: 0.6s; }
-        .cinema-section.active .desc-line:nth-child(2) { transition-delay: 0.75s; }
-        .cinema-section.active .desc-line:nth-child(3) { transition-delay: 0.9s; }
-        .cinema-section.active .desc-line:nth-child(4) { transition-delay: 1.05s; }
+        .cinema-section.active .desc-line:nth-child(1) { transition-delay: 0.7s; }
+        .cinema-section.active .desc-line:nth-child(2) { transition-delay: 0.85s; }
+        .cinema-section.active .desc-line:nth-child(3) { transition-delay: 1s; }
+        .cinema-section.active .desc-line:nth-child(4) { transition-delay: 1.15s; }
 
         .desc-line i {
             width: 28px;
@@ -247,7 +281,7 @@
 
         /* Hero Section Special */
         .hero-section .cinema-container {
-            background: rgba(253, 244, 240, 0.15);
+            background: rgba(253, 244, 240, 0.12);
         }
 
         .hero-section .cinema-title {
@@ -256,18 +290,13 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: none;
         }
 
-        .hero-section.active .cinema-image-side {
-            opacity: 0.2;
+        .hero-section.active .product-image {
+            transform: scale(0.9);
         }
 
-        .hero-section.active .cinema-image-side:hover {
-            opacity: 1;
-        }
-
-        /* Scroll Progress Bar */
+        /* Scroll Progress */
         .cinema-progress {
             position: fixed;
             top: 0;
@@ -277,10 +306,9 @@
             background: linear-gradient(90deg, #D45A2B, #4CAF50, #2C553C);
             z-index: 1000;
             transition: width 0.08s linear;
-            box-shadow: 0 0 8px #D45A2B;
         }
 
-        /* Navigation Dots */
+        /* Navigation */
         .cinema-nav {
             position: fixed;
             right: 20px;
@@ -293,8 +321,8 @@
         }
 
         .nav-dot {
-            width: 9px;
-            height: 9px;
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
             background: rgba(44, 85, 60, 0.4);
             cursor: pointer;
@@ -303,14 +331,9 @@
 
         .nav-dot.active {
             background: #D45A2B;
-            width: 13px;
-            height: 13px;
+            width: 14px;
+            height: 14px;
             box-shadow: 0 0 12px #D45A2B;
-        }
-
-        .nav-dot:hover {
-            background: #D45A2B;
-            transform: scale(1.3);
         }
 
         /* Scroll Hint */
@@ -325,7 +348,7 @@
             letter-spacing: 3px;
             animation: gentleBounce 2.5s infinite;
             cursor: pointer;
-            background: rgba(253, 244, 240, 0.75);
+            background: rgba(253, 244, 240, 0.8);
             backdrop-filter: blur(8px);
             padding: 7px 16px;
             border-radius: 40px;
@@ -340,27 +363,7 @@
             50% { transform: translateX(-50%) translateY(10px); opacity: 1; }
         }
 
-        /* Hover Cinematic Effect - additional glow on image hover */
-        .cinema-section.active .cinema-image-side:hover .product-image {
-            filter: drop-shadow(0 0 20px rgba(212, 90, 43, 0.4));
-            transition: all 0.4s ease;
-        }
-
-        /* Soft edge overlay for extra blending */
-        .cinema-image-side::after {
-            content: '';
-            position: absolute;
-            top: -10%;
-            left: -10%;
-            right: -10%;
-            bottom: -10%;
-            background: radial-gradient(ellipse at center, transparent 50%, rgba(253, 244, 240, 0.1) 100%);
-            pointer-events: none;
-            z-index: 2;
-            border-radius: 50%;
-        }
-
-        /* Mobile Responsive */
+        /* ========== MOBILE OPTIMIZATIONS ========== */
         @media (max-width: 1023px) {
             .cinema-section {
                 padding: 3rem 1rem;
@@ -369,30 +372,83 @@
             
             .cinema-grid {
                 grid-template-columns: 1fr;
-                gap: 1.8rem;
+                gap: 2rem;
                 text-align: center;
             }
             
-            .cinema-image-side {
-                transform: none;
+            /* Mobile image animation adjustments */
+            .cinema-section .image-cinema-wrapper {
+                transform: scale(0.8) rotateY(0deg);
             }
             
-            .cinema-section.active .cinema-image-side {
-                opacity: 0.25;
-                transform: scale(0.95);
+            .cinema-section.active .image-cinema-wrapper {
+                transform: scale(1) rotateY(0deg);
+            }
+            
+            .cinema-section.active .product-image {
+                transform: scale(0.92) translateX(0);
+            }
+            
+            .cinema-section.active .image-cinema-wrapper:hover .product-image {
+                transform: scale(1.02) translateX(0);
+            }
+            
+            .cinema-text-side {
+                transform: translateY(30px);
             }
             
             .desc-line {
                 justify-content: center;
+                text-align: left;
             }
             
             .cinema-container {
                 padding: 1.5rem;
-                border-radius: 40px;
+                border-radius: 36px;
+            }
+            
+            .product-image {
+                max-width: 260px;
+                aspect-ratio: 1 / 1;
             }
             
             .cinema-nav {
                 display: none;
+            }
+            
+            .cinema-badge {
+                font-size: 0.6rem;
+                letter-spacing: 3px;
+            }
+            
+            .cinema-description {
+                padding: 1rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Small mobile */
+        @media (max-width: 480px) {
+            .cinema-section {
+                padding: 2rem 0.8rem;
+            }
+            
+            .product-image {
+                max-width: 220px;
+            }
+            
+            .cinema-title {
+                font-size: 1.8rem;
+            }
+            
+            .desc-line {
+                gap: 8px;
+                font-size: 0.85rem;
+            }
+            
+            .desc-line i {
+                width: 22px;
+                font-size: 0.9rem;
             }
         }
 
@@ -402,28 +458,22 @@
             * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
         }
 
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 5px; }
+        /* Smooth scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #fdf4f0; }
         ::-webkit-scrollbar-thumb { background: #D45A2B; border-radius: 10px; }
-
-        /* Smooth focus */
-        button, .nav-dot, .scroll-hint {
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
-        }
     </style>
 </head>
 <body>
 
-    <!-- Ambient Floating Particles -->
-    <div class="ambient-particle" style="width: 150px; height: 150px; top: 15%; left: 5%; animation-duration: 14s;"></div>
-    <div class="ambient-particle" style="width: 100px; height: 100px; bottom: 20%; right: 8%; animation-duration: 18s; animation-delay: 2s;"></div>
-    <div class="ambient-particle" style="width: 200px; height: 200px; top: 60%; left: 85%; animation-duration: 20s; animation-delay: 5s;"></div>
-    <div class="ambient-particle" style="width: 80px; height: 80px; top: 80%; left: 15%; animation-duration: 12s; animation-delay: 1s;"></div>
+    <!-- Ambient Light Particles -->
+    <div class="light-particle" style="width: 200px; height: 200px; top: 10%; left: -5%; animation-duration: 20s;"></div>
+    <div class="light-particle" style="width: 150px; height: 150px; bottom: 15%; right: -3%; animation-duration: 18s; animation-delay: 3s;"></div>
+    <div class="light-particle" style="width: 120px; height: 120px; top: 60%; left: 80%; animation-duration: 22s; animation-delay: 7s;"></div>
+    <div class="light-particle" style="width: 100px; height: 100px; top: 85%; left: 10%; animation-duration: 16s; animation-delay: 2s;"></div>
 
-    <!-- Animated Background -->
     <div class="animated-bg"></div>
+    <div class="cinematic-overlay"></div>
 
     <!-- Scroll Progress -->
     <div class="cinema-progress" id="progressBar"></div>
@@ -445,7 +495,9 @@
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="intro.jpeg" alt="Dettol Shield" class="product-image" loading="eager" onerror="this.src='intro.jpg'">
+                    <div class="image-cinema-wrapper">
+                        <img src="intro.jpeg" alt="Dettol Shield" class="product-image" loading="eager" onerror="this.src='intro.jpg'">
+                    </div>
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge"><i class="fas fa-shield-alt mr-2"></i> SINCE 1933</span>
@@ -459,7 +511,7 @@
                 </div>
             </div>
         </div>
-        <div class="scroll-hint"><span>SCROLL TO BEGIN</span><i class="fas fa-chevron-down"></i></div>
+        <div class="scroll-hint"><span>SCROLL TO BEGIN CINEMA</span><i class="fas fa-chevron-down"></i></div>
     </section>
 
     <!-- Product 1 - Antiseptic Liquid -->
@@ -467,7 +519,9 @@
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="antiseptic.jpg" alt="Antiseptic Liquid" class="product-image" loading="lazy" onerror="this.src='antiseptic.jpeg'">
+                    <div class="image-cinema-wrapper">
+                        <img src="antiseptic.jpg" alt="Antiseptic Liquid" class="product-image" loading="lazy" onerror="this.src='antiseptic.jpeg'">
+                    </div>
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">FLAGSHIP PROTECTION</span>
@@ -489,7 +543,9 @@
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="handsr.jpg" alt="Hand Sanitizer" class="product-image" loading="lazy" onerror="this.src='handsr.jpeg'">
+                    <div class="image-cinema-wrapper">
+                        <img src="handsr.jpg" alt="Hand Sanitizer" class="product-image" loading="lazy" onerror="this.src='handsr.jpeg'">
+                    </div>
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">ON-THE-GO DEFENSE</span>
@@ -511,7 +567,9 @@
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="mulsurface.jpg" alt="Multi-Surface Spray" class="product-image" loading="lazy" onerror="this.src='mulsurface.jpeg'">
+                    <div class="image-cinema-wrapper">
+                        <img src="mulsurface.jpg" alt="Multi-Surface Spray" class="product-image" loading="lazy" onerror="this.src='mulsurface.jpeg'">
+                    </div>
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">360° SURFACE PROTECTION</span>
@@ -533,7 +591,9 @@
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="hands.jpg" alt="Antibacterial Soap" class="product-image" loading="lazy" onerror="this.src='hands.jpeg'">
+                    <div class="image-cinema-wrapper">
+                        <img src="hands.jpg" alt="Antibacterial Soap" class="product-image" loading="lazy" onerror="this.src='hands.jpeg'">
+                    </div>
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">DAILY ESSENTIAL</span>
@@ -555,7 +615,9 @@
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="surface.jpg" alt="Surface Wipes" class="product-image" loading="lazy" onerror="this.src='surface.jpeg'">
+                    <div class="image-cinema-wrapper">
+                        <img src="surface.jpg" alt="Surface Wipes" class="product-image" loading="lazy" onerror="this.src='surface.jpeg'">
+                    </div>
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">INSTANT CLEAN</span>
@@ -577,7 +639,9 @@
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="laundry.jpg" alt="Laundry Sanitizer" class="product-image" loading="lazy" onerror="this.src='laundry.jpeg'">
+                    <div class="image-cinema-wrapper">
+                        <img src="laundry.jpg" alt="Laundry Sanitizer" class="product-image" loading="lazy" onerror="this.src='laundry.jpeg'">
+                    </div>
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">DEEPER CLEAN</span>
@@ -599,7 +663,9 @@
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="lab.jpg" alt="Science Lab" class="product-image" loading="lazy" onerror="this.src='lab.jpeg'">
+                    <div class="image-cinema-wrapper">
+                        <img src="lab.jpg" alt="Science Lab" class="product-image" loading="lazy" onerror="this.src='lab.jpeg'">
+                    </div>
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">THE SCIENCE BEHIND</span>
@@ -616,7 +682,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="text-center py-8 text-gray-600 text-sm relative z-10 bg-[#fdf4f0]/40 backdrop-blur-sm mt-4">
+    <footer class="text-center py-8 text-gray-600 text-sm relative z-10 bg-[#fdf4f0]/30 backdrop-blur-sm mt-4">
         <div class="max-w-6xl mx-auto px-4">
             <i class="fas fa-shield-virus text-2xl text-[#D45A2B] mb-3 block opacity-70"></i>
             <p>© 2025 Dettol — A cinematic journey through complete protection. 99.9% germ kill. Trusted worldwide.</p>
@@ -676,7 +742,7 @@
                 if (sections[0]) sections[0].classList.add('active');
             }, 100);
             
-            // Navigation dot clicks
+            // Navigation
             navDots.forEach((dot, index) => {
                 dot.addEventListener('click', () => {
                     if (sections[index]) {
@@ -685,7 +751,7 @@
                 });
             });
             
-            // Scroll hint clicks
+            // Scroll hints
             const scrollHints = document.querySelectorAll('.scroll-hint');
             scrollHints.forEach((hint, idx) => {
                 hint.addEventListener('click', (e) => {
@@ -697,7 +763,7 @@
                 });
             });
             
-            // Preload background for smooth animation
+            // Preload background
             const bgImg = new Image();
             bgImg.src = 'foambg.jpg';
             
