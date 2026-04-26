@@ -2,34 +2,61 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Dettol | Cinematic Product Journey</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
+    <title>Dettol | Cinematic Product Journey — The Shield Experience</title>
+    <meta name="description" content="Experience Dettol's complete range in an immersive cinematic showcase.">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: #fdf4f0; overflow-x: hidden; }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fdf4f0;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
         .animated-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: -2;
             background-image: url('foambg.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
             animation: slowDrift 25s ease-in-out infinite alternate;
         }
-        
+
         @keyframes slowDrift {
             0% { transform: scale(1); }
             100% { transform: scale(1.05); }
         }
-        
+
+        /* Ambient floating particles for cinematic feel */
+        .ambient-particle {
+            position: fixed;
+            border-radius: 50%;
+            background: rgba(212, 90, 43, 0.15);
+            pointer-events: none;
+            z-index: -1;
+            animation: floatParticle 12s infinite ease-in-out;
+        }
+
+        @keyframes floatParticle {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+            50% { transform: translateY(-50px) translateX(30px); opacity: 0.6; }
+        }
+
+        /* Cinema Sections */
         .cinema-section {
             position: relative;
             min-height: 100vh;
@@ -37,143 +64,210 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 5rem 1.25rem;
+            padding: 5rem 1.5rem;
+            scroll-margin-top: 0px;
+            perspective: 1200px;
         }
-        
+
+        /* Glassmorphic Container */
         .cinema-container {
-            max-width: 1280px;
+            max-width: 1300px;
             width: 100%;
             margin: 0 auto;
-            background: rgba(253, 244, 240, 0.3);
-            backdrop-filter: blur(6px);
-            border-radius: 48px;
-            padding: 2rem 1.8rem;
-            transition: all 0.5s ease;
-            border: none;
+            background: rgba(253, 244, 240, 0.2);
+            backdrop-filter: blur(4px);
+            border-radius: 60px;
+            padding: 2rem 2rem;
+            transition: all 0.6s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
         }
-        
+
+        .cinema-section.active .cinema-container {
+            background: rgba(253, 244, 240, 0.25);
+            backdrop-filter: blur(6px);
+        }
+
+        /* Two-column layout */
         .cinema-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 2.5rem;
+            gap: 3rem;
             align-items: center;
         }
-        
+
+        /* IMAGE SIDE - With Cinematic Reveal Animation */
         .cinema-image-side {
             position: relative;
-            opacity: 0;
-            transform: translateX(-30px);
-            transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.2);
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-        
-        .cinema-section.active .cinema-image-side {
+            /* Initial state: visible, full opacity */
             opacity: 1;
-            transform: translateX(0);
+            transform: scale(1);
+            transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.2);
         }
-        
+
+        /* When section becomes active: image fades gently into background */
+        .cinema-section.active .cinema-image-side {
+            opacity: 0.15;
+            transform: scale(0.92);
+            filter: blur(2px);
+            transition: all 1.2s cubic-bezier(0.3, 0.9, 0.2, 1.1);
+        }
+
+        /* On hover: image dramatically reappears */
+        .cinema-section.active .cinema-image-side:hover {
+            opacity: 1;
+            transform: scale(1.02);
+            filter: blur(0px);
+            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+        }
+
+        /* Uniform Image Sizing - all images same dimensions */
         .product-image {
             width: 100%;
-            max-width: 400px;
+            max-width: 380px;
+            height: 380px;
+            object-fit: contain;
             margin: 0 auto;
             display: block;
             transition: all 0.5s ease;
-            /* Soft edge blending - removes sharp boundaries */
-            mask-image: radial-gradient(ellipse at center, black 70%, transparent 98%);
-            -webkit-mask-image: radial-gradient(ellipse at center, black 70%, transparent 98%);
-            border-radius: 0;
+            /* Soft edge blending - NO sharp vertices */
+            mask-image: radial-gradient(ellipse at center, black 65%, transparent 98%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 65%, transparent 98%);
+            filter: drop-shadow(0 0px 0px rgba(0,0,0,0));
         }
-        
-        .cinema-section.active .product-image {
-            animation: subtleFloat 4s ease-in-out infinite;
+
+        /* Responsive image sizing */
+        @media (max-width: 768px) {
+            .product-image {
+                max-width: 260px;
+                height: 260px;
+            }
         }
-        
-        @keyframes subtleFloat {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+
+        @media (min-width: 1200px) {
+            .product-image {
+                max-width: 420px;
+                height: 420px;
+            }
         }
-        
+
+        /* TEXT SIDE - appears after image fades */
         .cinema-text-side {
             opacity: 0;
-            transform: translateX(30px);
-            transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.2);
-            transition-delay: 0.2s;
+            transform: translateY(30px);
+            transition: all 0.9s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            transition-delay: 0s;
         }
-        
+
+        /* When section becomes active: text fades in beautifully */
         .cinema-section.active .cinema-text-side {
             opacity: 1;
-            transform: translateX(0);
+            transform: translateY(0);
+            transition-delay: 0.5s;
         }
-        
+
+        /* On hover: text slightly enhances for readability */
+        .cinema-section.active .cinema-image-side:hover ~ .cinema-text-side,
+        .cinema-section.active:hover .cinema-text-side {
+            opacity: 0.95;
+            transform: translateY(0);
+        }
+
+        /* Text Styling */
         .cinema-badge {
             font-size: 0.7rem;
-            letter-spacing: 4px;
+            letter-spacing: 5px;
             text-transform: uppercase;
             font-weight: 600;
             display: inline-block;
             margin-bottom: 1rem;
             color: #D45A2B;
-            background: rgba(253, 244, 240, 0.75);
+            background: rgba(253, 244, 240, 0.7);
             backdrop-filter: blur(4px);
             padding: 0.4rem 1.2rem;
             border-radius: 40px;
         }
-        
+
         .cinema-title {
             font-family: 'Playfair Display', serif;
-            font-size: clamp(2rem, 6vw, 3.8rem);
+            font-size: clamp(2rem, 5vw, 3.5rem);
             font-weight: 800;
             color: #2C553C;
-            margin-bottom: 1rem;
+            margin-bottom: 1.2rem;
             line-height: 1.2;
         }
-        
+
         .cinema-description {
             color: #3a2a24;
             line-height: 1.7;
-            background: rgba(253, 244, 240, 0.6);
+            background: rgba(253, 244, 240, 0.55);
             backdrop-filter: blur(4px);
             border-radius: 28px;
-            padding: 1.2rem 1.5rem;
+            padding: 1.3rem 1.8rem;
         }
-        
+
         .desc-line {
             margin: 0.8rem 0;
             display: flex;
             align-items: center;
             gap: 12px;
             opacity: 0;
-            transform: translateY(15px);
+            transform: translateX(-15px);
             transition: all 0.5s ease;
         }
-        
+
         .cinema-section.active .desc-line {
             opacity: 1;
-            transform: translateY(0);
+            transform: translateX(0);
         }
-        
-        .cinema-section.active .desc-line:nth-child(1) { transition-delay: 0.2s; }
-        .cinema-section.active .desc-line:nth-child(2) { transition-delay: 0.35s; }
-        .cinema-section.active .desc-line:nth-child(3) { transition-delay: 0.5s; }
-        .cinema-section.active .desc-line:nth-child(4) { transition-delay: 0.65s; }
-        
-        .desc-line i { width: 28px; color: #D45A2B; font-size: 1.1rem; }
-        
+
+        .cinema-section.active .desc-line:nth-child(1) { transition-delay: 0.6s; }
+        .cinema-section.active .desc-line:nth-child(2) { transition-delay: 0.75s; }
+        .cinema-section.active .desc-line:nth-child(3) { transition-delay: 0.9s; }
+        .cinema-section.active .desc-line:nth-child(4) { transition-delay: 1.05s; }
+
+        .desc-line i {
+            width: 28px;
+            color: #D45A2B;
+            font-size: 1.1rem;
+        }
+
+        /* Alternate layout for desktop */
         @media (min-width: 1024px) {
-            .cinema-section:nth-child(even) .cinema-grid { direction: rtl; }
-            .cinema-section:nth-child(even) .cinema-grid > * { direction: ltr; }
+            .cinema-section:nth-child(even) .cinema-grid {
+                direction: rtl;
+            }
+            .cinema-section:nth-child(even) .cinema-grid > * {
+                direction: ltr;
+            }
         }
-        
+
+        /* Hero Section Special */
+        .hero-section .cinema-container {
+            background: rgba(253, 244, 240, 0.15);
+        }
+
         .hero-section .cinema-title {
-            font-size: clamp(3rem, 9vw, 6rem);
+            font-size: clamp(3rem, 8vw, 5.5rem);
             background: linear-gradient(135deg, #2C553C, #D45A2B);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            text-shadow: none;
         }
-        
+
+        .hero-section.active .cinema-image-side {
+            opacity: 0.2;
+        }
+
+        .hero-section.active .cinema-image-side:hover {
+            opacity: 1;
+        }
+
+        /* Scroll Progress Bar */
         .cinema-progress {
             position: fixed;
             top: 0;
@@ -183,125 +277,158 @@
             background: linear-gradient(90deg, #D45A2B, #4CAF50, #2C553C);
             z-index: 1000;
             transition: width 0.08s linear;
+            box-shadow: 0 0 8px #D45A2B;
         }
-        
+
+        /* Navigation Dots */
         .cinema-nav {
             position: fixed;
-            right: 16px;
+            right: 20px;
             top: 50%;
             transform: translateY(-50%);
             z-index: 100;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
-        
+
         .nav-dot {
-            width: 8px;
-            height: 8px;
+            width: 9px;
+            height: 9px;
             border-radius: 50%;
-            background: rgba(44, 85, 60, 0.45);
+            background: rgba(44, 85, 60, 0.4);
             cursor: pointer;
             transition: all 0.3s ease;
         }
-        
+
         .nav-dot.active {
             background: #D45A2B;
-            width: 12px;
-            height: 12px;
-            box-shadow: 0 0 10px #D45A2B;
+            width: 13px;
+            height: 13px;
+            box-shadow: 0 0 12px #D45A2B;
         }
-        
+
+        .nav-dot:hover {
+            background: #D45A2B;
+            transform: scale(1.3);
+        }
+
+        /* Scroll Hint */
         .scroll-hint {
             position: absolute;
-            bottom: 20px;
+            bottom: 25px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 30;
             color: #2C553C;
             font-size: 10px;
-            animation: gentleBounce 2s infinite;
+            letter-spacing: 3px;
+            animation: gentleBounce 2.5s infinite;
             cursor: pointer;
-            background: rgba(253, 244, 240, 0.8);
+            background: rgba(253, 244, 240, 0.75);
             backdrop-filter: blur(8px);
-            padding: 6px 14px;
+            padding: 7px 16px;
             border-radius: 40px;
             display: flex;
             align-items: center;
-            gap: 6px;
-            white-space: nowrap;
+            gap: 8px;
+            font-weight: 500;
         }
-        
+
         @keyframes gentleBounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.8; }
-            50% { transform: translateX(-50%) translateY(8px); opacity: 1; }
+            0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.7; }
+            50% { transform: translateX(-50%) translateY(10px); opacity: 1; }
         }
-        
-        @media (max-width: 1023px) {
-            .cinema-grid { grid-template-columns: 1fr; gap: 1.8rem; text-align: center; }
-            .cinema-image-side { transform: translateY(-25px); }
-            .cinema-section.active .cinema-image-side { transform: translateY(0); }
-            .cinema-text-side { transform: translateY(25px); }
-            .cinema-section.active .cinema-text-side { transform: translateY(0); }
-            .desc-line { justify-content: center; }
-            .product-image { max-width: 260px; }
-            .cinema-nav { display: none; }
+
+        /* Hover Cinematic Effect - additional glow on image hover */
+        .cinema-section.active .cinema-image-side:hover .product-image {
+            filter: drop-shadow(0 0 20px rgba(212, 90, 43, 0.4));
+            transition: all 0.4s ease;
         }
-        
+
+        /* Soft edge overlay for extra blending */
         .cinema-image-side::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(ellipse at center, transparent 50%, rgba(253, 244, 240, 0.15) 100%);
+            top: -10%;
+            left: -10%;
+            right: -10%;
+            bottom: -10%;
+            background: radial-gradient(ellipse at center, transparent 50%, rgba(253, 244, 240, 0.1) 100%);
             pointer-events: none;
             z-index: 2;
+            border-radius: 50%;
         }
-        
+
+        /* Mobile Responsive */
+        @media (max-width: 1023px) {
+            .cinema-section {
+                padding: 3rem 1rem;
+                min-height: auto;
+            }
+            
+            .cinema-grid {
+                grid-template-columns: 1fr;
+                gap: 1.8rem;
+                text-align: center;
+            }
+            
+            .cinema-image-side {
+                transform: none;
+            }
+            
+            .cinema-section.active .cinema-image-side {
+                opacity: 0.25;
+                transform: scale(0.95);
+            }
+            
+            .desc-line {
+                justify-content: center;
+            }
+            
+            .cinema-container {
+                padding: 1.5rem;
+                border-radius: 40px;
+            }
+            
+            .cinema-nav {
+                display: none;
+            }
+        }
+
+        /* Reduced Motion */
         @media (prefers-reduced-motion: reduce) {
             .animated-bg { animation: none; }
             * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
         }
-        
-        ::-webkit-scrollbar { width: 4px; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
         ::-webkit-scrollbar-track { background: #fdf4f0; }
         ::-webkit-scrollbar-thumb { background: #D45A2B; border-radius: 10px; }
-        
-        /* Debug info panel - shows what's happening with images */
-        .debug-panel {
-            position: fixed;
-            bottom: 10px;
-            right: 10px;
-            background: rgba(0,0,0,0.8);
-            color: #0f0;
-            font-family: monospace;
-            font-size: 10px;
-            padding: 8px 12px;
-            border-radius: 8px;
-            z-index: 9999;
-            max-width: 300px;
-            pointer-events: none;
-            display: none;
-        }
-        
-        /* Show debug on devices with issues - remove in production */
-        @media (max-width: 1024px) {
-            .debug-panel { display: block; }
+
+        /* Smooth focus */
+        button, .nav-dot, .scroll-hint {
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
         }
     </style>
 </head>
 <body>
 
-    <div class="animated-bg"></div>
-    <div class="cinema-progress" id="progressBar"></div>
-    
-    <!-- Debug panel to help you see what's happening -->
-    <div class="debug-panel" id="debugPanel">
-        🔍 Checking images...
-    </div>
+    <!-- Ambient Floating Particles -->
+    <div class="ambient-particle" style="width: 150px; height: 150px; top: 15%; left: 5%; animation-duration: 14s;"></div>
+    <div class="ambient-particle" style="width: 100px; height: 100px; bottom: 20%; right: 8%; animation-duration: 18s; animation-delay: 2s;"></div>
+    <div class="ambient-particle" style="width: 200px; height: 200px; top: 60%; left: 85%; animation-duration: 20s; animation-delay: 5s;"></div>
+    <div class="ambient-particle" style="width: 80px; height: 80px; top: 80%; left: 15%; animation-duration: 12s; animation-delay: 1s;"></div>
 
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+
+    <!-- Scroll Progress -->
+    <div class="cinema-progress" id="progressBar"></div>
+
+    <!-- Navigation Dots -->
     <div class="cinema-nav">
         <div class="nav-dot active" data-section="0"></div>
         <div class="nav-dot" data-section="1"></div>
@@ -318,9 +445,7 @@
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="intro.jpeg" alt="Dettol" class="product-image" id="img0" 
-                         onerror="this.onerror=null; this.src='intro.jpg'; document.getElementById('debugPanel').innerHTML+='<br>⚠️ intro.jpeg not found, trying intro.jpg'"
-                         onload="document.getElementById('debugPanel').innerHTML+='<br>✅ intro image loaded'">
+                    <img src="intro.jpeg" alt="Dettol Shield" class="product-image" loading="eager" onerror="this.src='intro.jpg'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge"><i class="fas fa-shield-alt mr-2"></i> SINCE 1933</span>
@@ -334,17 +459,15 @@
                 </div>
             </div>
         </div>
-        <div class="scroll-hint"><span>SCROLL TO EXPLORE</span><i class="fas fa-chevron-down"></i></div>
+        <div class="scroll-hint"><span>SCROLL TO BEGIN</span><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- Product 1 - Antiseptic -->
+    <!-- Product 1 - Antiseptic Liquid -->
     <section class="cinema-section" id="section1">
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="antiseptic.jpg" alt="Antiseptic" class="product-image" id="img1"
-                         onerror="this.onerror=null; this.src='antiseptic.jpeg'; document.getElementById('debugPanel').innerHTML+='<br>⚠️ antiseptic.jpg not found'"
-                         onload="document.getElementById('debugPanel').innerHTML+='<br>✅ antiseptic loaded'">
+                    <img src="antiseptic.jpg" alt="Antiseptic Liquid" class="product-image" loading="lazy" onerror="this.src='antiseptic.jpeg'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">FLAGSHIP PROTECTION</span>
@@ -358,7 +481,7 @@
                 </div>
             </div>
         </div>
-        <div class="scroll-hint"><i class="fas fa-chevron-down"></i><span>Next</span></div>
+        <div class="scroll-hint"><i class="fas fa-chevron-down"></i><span>Next Scene</span></div>
     </section>
 
     <!-- Product 2 - Hand Sanitizer -->
@@ -366,9 +489,7 @@
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="handsr.jpg" alt="Hand Sanitizer" class="product-image" id="img2"
-                         onerror="this.onerror=null; this.src='handsr.jpeg'; document.getElementById('debugPanel').innerHTML+='<br>⚠️ handsr.jpg not found'"
-                         onload="document.getElementById('debugPanel').innerHTML+='<br>✅ handsr loaded'">
+                    <img src="handsr.jpg" alt="Hand Sanitizer" class="product-image" loading="lazy" onerror="this.src='handsr.jpeg'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">ON-THE-GO DEFENSE</span>
@@ -385,14 +506,12 @@
         <div class="scroll-hint"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- Product 3 - Multi-Surface -->
+    <!-- Product 3 - Multi-Surface Spray -->
     <section class="cinema-section" id="section3">
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="mulsurface.jpg" alt="Multi-Surface" class="product-image" id="img3"
-                         onerror="this.onerror=null; this.src='mulsurface.jpeg'; document.getElementById('debugPanel').innerHTML+='<br>⚠️ mulsurface.jpg not found'"
-                         onload="document.getElementById('debugPanel').innerHTML+='<br>✅ mulsurface loaded'">
+                    <img src="mulsurface.jpg" alt="Multi-Surface Spray" class="product-image" loading="lazy" onerror="this.src='mulsurface.jpeg'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">360° SURFACE PROTECTION</span>
@@ -409,14 +528,12 @@
         <div class="scroll-hint"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- Product 4 - Soap -->
+    <!-- Product 4 - Antibacterial Soap -->
     <section class="cinema-section" id="section4">
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="hands.jpg" alt="Soap" class="product-image" id="img4"
-                         onerror="this.onerror=null; this.src='hands.jpeg'; document.getElementById('debugPanel').innerHTML+='<br>⚠️ hands.jpg not found'"
-                         onload="document.getElementById('debugPanel').innerHTML+='<br>✅ hands loaded'">
+                    <img src="hands.jpg" alt="Antibacterial Soap" class="product-image" loading="lazy" onerror="this.src='hands.jpeg'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">DAILY ESSENTIAL</span>
@@ -433,14 +550,12 @@
         <div class="scroll-hint"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- Product 5 - Wipes -->
+    <!-- Product 5 - Surface Wipes -->
     <section class="cinema-section" id="section5">
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="surface.jpg" alt="Wipes" class="product-image" id="img5"
-                         onerror="this.onerror=null; this.src='surface.jpeg'; document.getElementById('debugPanel').innerHTML+='<br>⚠️ surface.jpg not found'"
-                         onload="document.getElementById('debugPanel').innerHTML+='<br>✅ surface loaded'">
+                    <img src="surface.jpg" alt="Surface Wipes" class="product-image" loading="lazy" onerror="this.src='surface.jpeg'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">INSTANT CLEAN</span>
@@ -457,14 +572,12 @@
         <div class="scroll-hint"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- Product 6 - Laundry -->
+    <!-- Product 6 - Laundry Sanitizer -->
     <section class="cinema-section" id="section6">
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="laundry.jpg" alt="Laundry" class="product-image" id="img6"
-                         onerror="this.onerror=null; this.src='laundry.jpeg'; document.getElementById('debugPanel').innerHTML+='<br>⚠️ laundry.jpg not found'"
-                         onload="document.getElementById('debugPanel').innerHTML+='<br>✅ laundry loaded'">
+                    <img src="laundry.jpg" alt="Laundry Sanitizer" class="product-image" loading="lazy" onerror="this.src='laundry.jpeg'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">DEEPER CLEAN</span>
@@ -486,9 +599,7 @@
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="lab.jpg" alt="Lab" class="product-image" id="img7"
-                         onerror="this.onerror=null; this.src='lab.jpeg'; document.getElementById('debugPanel').innerHTML+='<br>⚠️ lab.jpg not found'"
-                         onload="document.getElementById('debugPanel').innerHTML+='<br>✅ lab loaded'">
+                    <img src="lab.jpg" alt="Science Lab" class="product-image" loading="lazy" onerror="this.src='lab.jpeg'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">THE SCIENCE BEHIND</span>
@@ -504,15 +615,16 @@
         </div>
     </section>
 
-    <footer class="text-center py-8 text-gray-600 text-sm relative z-10 bg-[#fdf4f0]/50 backdrop-blur-sm mt-4">
+    <!-- Footer -->
+    <footer class="text-center py-8 text-gray-600 text-sm relative z-10 bg-[#fdf4f0]/40 backdrop-blur-sm mt-4">
         <div class="max-w-6xl mx-auto px-4">
-            <i class="fas fa-shield-virus text-2xl text-[#D45A2B] mb-3 block opacity-80"></i>
+            <i class="fas fa-shield-virus text-2xl text-[#D45A2B] mb-3 block opacity-70"></i>
             <p>© 2025 Dettol — A cinematic journey through complete protection. 99.9% germ kill. Trusted worldwide.</p>
             <div class="flex justify-center gap-6 mt-4">
-                <i class="fab fa-facebook-f hover:text-[#2C553C] cursor-pointer transition text-lg"></i>
-                <i class="fab fa-instagram hover:text-[#2C553C] cursor-pointer transition text-lg"></i>
-                <i class="fab fa-twitter hover:text-[#2C553C] cursor-pointer transition text-lg"></i>
-                <i class="fab fa-youtube hover:text-[#2C553C] cursor-pointer transition text-lg"></i>
+                <i class="fab fa-facebook-f hover:text-[#D45A2B] cursor-pointer transition text-lg"></i>
+                <i class="fab fa-instagram hover:text-[#D45A2B] cursor-pointer transition text-lg"></i>
+                <i class="fab fa-twitter hover:text-[#D45A2B] cursor-pointer transition text-lg"></i>
+                <i class="fab fa-youtube hover:text-[#D45A2B] cursor-pointer transition text-lg"></i>
             </div>
         </div>
     </footer>
@@ -522,25 +634,27 @@
             const sections = document.querySelectorAll('.cinema-section');
             const navDots = document.querySelectorAll('.nav-dot');
             const progressBar = document.getElementById('progressBar');
-            const debugPanel = document.getElementById('debugPanel');
-            
-            // Update debug panel with current directory info
-            debugPanel.innerHTML = '📁 Current page location: ' + window.location.href + '<br>';
-            debugPanel.innerHTML += '🔍 Looking for images in same folder...<br>';
             
             function updateActiveSection() {
-                const scrollPosition = window.scrollY + window.innerHeight * 0.42;
+                const scrollPosition = window.scrollY + window.innerHeight * 0.45;
+                
                 sections.forEach((section, index) => {
                     const sectionTop = section.offsetTop;
                     const sectionBottom = sectionTop + section.offsetHeight;
+                    
                     if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-                        section.classList.add('active');
+                        if (!section.classList.contains('active')) {
+                            section.classList.add('active');
+                        }
                         navDots.forEach(dot => dot.classList.remove('active'));
                         if (navDots[index]) navDots[index].classList.add('active');
                     } else {
-                        section.classList.remove('active');
+                        if (section.classList.contains('active')) {
+                            section.classList.remove('active');
+                        }
                     }
                 });
+                
                 const totalHeight = document.body.scrollHeight - window.innerHeight;
                 const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
                 progressBar.style.width = Math.min(100, Math.max(0, progress)) + '%';
@@ -549,7 +663,10 @@
             let ticking = false;
             window.addEventListener('scroll', () => {
                 if (!ticking) {
-                    requestAnimationFrame(() => { updateActiveSection(); ticking = false; });
+                    requestAnimationFrame(() => {
+                        updateActiveSection();
+                        ticking = false;
+                    });
                     ticking = true;
                 }
             });
@@ -559,46 +676,38 @@
                 if (sections[0]) sections[0].classList.add('active');
             }, 100);
             
+            // Navigation dot clicks
             navDots.forEach((dot, index) => {
                 dot.addEventListener('click', () => {
-                    if (sections[index]) sections[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    if (sections[index]) {
+                        sections[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                 });
             });
             
+            // Scroll hint clicks
             const scrollHints = document.querySelectorAll('.scroll-hint');
             scrollHints.forEach((hint, idx) => {
                 hint.addEventListener('click', (e) => {
                     e.preventDefault();
                     const nextSection = sections[idx + 1];
-                    if (nextSection) nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    if (nextSection) {
+                        nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                 });
             });
             
-            // Final image check after load
+            // Preload background for smooth animation
+            const bgImg = new Image();
+            bgImg.src = 'foambg.jpg';
+            
+            window.addEventListener('resize', () => {
+                setTimeout(updateActiveSection, 100);
+            });
+            
             window.addEventListener('load', () => {
-                const images = document.querySelectorAll('.product-image');
-                let loaded = 0, failed = 0;
-                images.forEach((img, i) => {
-                    if (img.complete && img.naturalHeight !== 0) {
-                        loaded++;
-                        debugPanel.innerHTML += `✅ Image ${i+1}: ${img.src.split('/').pop()} - OK<br>`;
-                    } else {
-                        failed++;
-                        debugPanel.innerHTML += `❌ Image ${i+1}: ${img.src.split('/').pop()} - NOT FOUND<br>`;
-                    }
-                });
-                debugPanel.innerHTML += `<br>📊 Total: ${loaded} loaded, ${failed} failed<br>`;
-                if (failed > 0) {
-                    debugPanel.innerHTML += `<br>⚠️ TROUBLESHOOTING:<br>`;
-                    debugPanel.innerHTML += `1. Make sure ALL images are in the SAME folder as this HTML file<br>`;
-                    debugPanel.innerHTML += `2. Check exact filenames (case-sensitive):<br>`;
-                    debugPanel.innerHTML += `   intro.jpeg, antiseptic.jpg, handsr.jpg, mulsurface.jpg, hands.jpg, surface.jpg, laundry.jpg, lab.jpg<br>`;
-                    debugPanel.innerHTML += `3. Try renaming intro.jpeg to intro.jpg (or vice versa)<br>`;
-                    debugPanel.innerHTML += `4. Open browser console (F12) for more details<br>`;
-                }
-                debugPanel.style.maxHeight = '400px';
-                debugPanel.style.overflow = 'auto';
-                debugPanel.style.fontSize = '9px';
+                document.body.classList.add('loaded');
+                updateActiveSection();
             });
         })();
     </script>
