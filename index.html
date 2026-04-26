@@ -2,27 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes">
-    <title>Dettol | Cinematic Product Journey — The Shield Experience</title>
-    <meta name="description" content="Experience Dettol's complete range in an immersive cinematic showcase. Each product reveals itself with elegant transitions.">
-    <!-- Tailwind CSS + Font Awesome + Google Fonts -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Dettol | Cinematic Product Journey</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Playfair+Display:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #fdf4f0;
-            overflow-x: hidden;
-        }
-
-        /* Full-screen animated background */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #fdf4f0; overflow-x: hidden; }
+        
         .animated-bg {
             position: fixed;
             top: 0;
@@ -35,15 +23,13 @@
             background-position: center;
             background-repeat: no-repeat;
             animation: slowDrift 25s ease-in-out infinite alternate;
-            will-change: transform;
         }
-
+        
         @keyframes slowDrift {
             0% { transform: scale(1); }
             100% { transform: scale(1.05); }
         }
-
-        /* Each product section */
+        
         .cinema-section {
             position: relative;
             min-height: 100vh;
@@ -52,32 +38,27 @@
             align-items: center;
             justify-content: center;
             padding: 5rem 1.25rem;
-            scroll-margin-top: 0px;
         }
-
-        /* Glassmorphic container */
+        
         .cinema-container {
             max-width: 1280px;
             width: 100%;
             margin: 0 auto;
-            background: rgba(253, 244, 240, 0.25);
+            background: rgba(253, 244, 240, 0.3);
             backdrop-filter: blur(6px);
             border-radius: 48px;
             padding: 2rem 1.8rem;
             transition: all 0.5s ease;
             border: none;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
         }
-
-        /* Two-column layout */
+        
         .cinema-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2.5rem;
             align-items: center;
         }
-
-        /* Image side */
+        
         .cinema-image-side {
             position: relative;
             opacity: 0;
@@ -87,56 +68,45 @@
             justify-content: center;
             align-items: center;
         }
-
+        
         .cinema-section.active .cinema-image-side {
             opacity: 1;
             transform: translateX(0);
         }
-
-        /* Images with soft blending */
+        
         .product-image {
             width: 100%;
-            max-width: 420px;
+            max-width: 400px;
             margin: 0 auto;
             display: block;
             transition: all 0.5s ease;
-            border-radius: 0px;
-            background: transparent;
-            filter: drop-shadow(0 0px 0px rgba(0,0,0,0));
-            /* Soft edge blending */
-            mask-image: radial-gradient(circle at center, black 70%, transparent 98%);
-            -webkit-mask-image: radial-gradient(circle at center, black 70%, transparent 98%);
+            /* Soft edge blending - removes sharp boundaries */
+            mask-image: radial-gradient(ellipse at center, black 70%, transparent 98%);
+            -webkit-mask-image: radial-gradient(ellipse at center, black 70%, transparent 98%);
+            border-radius: 0;
         }
-
-        img {
-            border: none;
-            outline: none;
-            background: transparent;
-        }
-
+        
         .cinema-section.active .product-image {
             animation: subtleFloat 4s ease-in-out infinite;
         }
-
+        
         @keyframes subtleFloat {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
         }
-
-        /* Text side */
+        
         .cinema-text-side {
             opacity: 0;
             transform: translateX(30px);
             transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.2);
             transition-delay: 0.2s;
         }
-
+        
         .cinema-section.active .cinema-text-side {
             opacity: 1;
             transform: translateX(0);
         }
-
-        /* Text styling */
+        
         .cinema-badge {
             font-size: 0.7rem;
             letter-spacing: 4px;
@@ -149,9 +119,8 @@
             backdrop-filter: blur(4px);
             padding: 0.4rem 1.2rem;
             border-radius: 40px;
-            border: none;
         }
-
+        
         .cinema-title {
             font-family: 'Playfair Display', serif;
             font-size: clamp(2rem, 6vw, 3.8rem);
@@ -160,18 +129,16 @@
             margin-bottom: 1rem;
             line-height: 1.2;
         }
-
+        
         .cinema-description {
             color: #3a2a24;
             line-height: 1.7;
-            font-size: clamp(0.9rem, 3.5vw, 1rem);
             background: rgba(253, 244, 240, 0.6);
             backdrop-filter: blur(4px);
             border-radius: 28px;
             padding: 1.2rem 1.5rem;
-            border: none;
         }
-
+        
         .desc-line {
             margin: 0.8rem 0;
             display: flex;
@@ -181,58 +148,32 @@
             transform: translateY(15px);
             transition: all 0.5s ease;
         }
-
+        
         .cinema-section.active .desc-line {
             opacity: 1;
             transform: translateY(0);
         }
-
+        
         .cinema-section.active .desc-line:nth-child(1) { transition-delay: 0.2s; }
         .cinema-section.active .desc-line:nth-child(2) { transition-delay: 0.35s; }
         .cinema-section.active .desc-line:nth-child(3) { transition-delay: 0.5s; }
         .cinema-section.active .desc-line:nth-child(4) { transition-delay: 0.65s; }
-
-        .desc-line i {
-            width: 28px;
-            color: #D45A2B;
-            font-size: 1.1rem;
-        }
-
-        /* Alternate layout for desktop even sections */
+        
+        .desc-line i { width: 28px; color: #D45A2B; font-size: 1.1rem; }
+        
         @media (min-width: 1024px) {
-            .cinema-section:nth-child(even) .cinema-grid {
-                direction: rtl;
-            }
-            .cinema-section:nth-child(even) .cinema-grid > * {
-                direction: ltr;
-            }
+            .cinema-section:nth-child(even) .cinema-grid { direction: rtl; }
+            .cinema-section:nth-child(even) .cinema-grid > * { direction: ltr; }
         }
-
-        /* Hero section */
-        .hero-section .cinema-container {
-            background: rgba(253, 244, 240, 0.2);
-        }
-
+        
         .hero-section .cinema-title {
             font-size: clamp(3rem, 9vw, 6rem);
             background: linear-gradient(135deg, #2C553C, #D45A2B);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            text-shadow: none;
         }
-
-        .hero-section .product-image {
-            max-width: 380px;
-            animation: softPulse 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes softPulse {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.02); }
-        }
-
-        /* Scroll progress bar */
+        
         .cinema-progress {
             position: fixed;
             top: 0;
@@ -242,10 +183,8 @@
             background: linear-gradient(90deg, #D45A2B, #4CAF50, #2C553C);
             z-index: 1000;
             transition: width 0.08s linear;
-            box-shadow: 0 0 8px #D45A2B;
         }
-
-        /* Navigation dots */
+        
         .cinema-nav {
             position: fixed;
             right: 16px;
@@ -256,7 +195,7 @@
             flex-direction: column;
             gap: 12px;
         }
-
+        
         .nav-dot {
             width: 8px;
             height: 8px;
@@ -265,15 +204,14 @@
             cursor: pointer;
             transition: all 0.3s ease;
         }
-
+        
         .nav-dot.active {
             background: #D45A2B;
             width: 12px;
             height: 12px;
             box-shadow: 0 0 10px #D45A2B;
         }
-
-        /* Scroll hint */
+        
         .scroll-hint {
             position: absolute;
             bottom: 20px;
@@ -282,7 +220,6 @@
             z-index: 30;
             color: #2C553C;
             font-size: 10px;
-            letter-spacing: 2px;
             animation: gentleBounce 2s infinite;
             cursor: pointer;
             background: rgba(253, 244, 240, 0.8);
@@ -292,111 +229,79 @@
             display: flex;
             align-items: center;
             gap: 6px;
-            border: none;
-            font-weight: 500;
             white-space: nowrap;
         }
-
+        
         @keyframes gentleBounce {
             0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.8; }
             50% { transform: translateX(-50%) translateY(8px); opacity: 1; }
         }
-
-        /* Mobile optimizations */
+        
         @media (max-width: 1023px) {
-            .cinema-section {
-                padding: 4rem 1rem;
-                min-height: auto;
-            }
-            
-            .cinema-grid {
-                grid-template-columns: 1fr;
-                gap: 1.8rem;
-                text-align: center;
-            }
-            
-            .cinema-image-side {
-                transform: translateY(-25px);
-            }
-            
-            .cinema-section.active .cinema-image-side {
-                transform: translateY(0);
-            }
-            
-            .cinema-text-side {
-                transform: translateY(25px);
-            }
-            
-            .cinema-section.active .cinema-text-side {
-                transform: translateY(0);
-            }
-            
-            .desc-line {
-                justify-content: center;
-                flex-wrap: wrap;
-                text-align: left;
-            }
-            
-            .cinema-container {
-                padding: 1.5rem 1.2rem;
-                border-radius: 32px;
-            }
-            
-            .product-image {
-                max-width: 280px;
-            }
-            
-            .hero-section .product-image {
-                max-width: 260px;
-            }
-            
-            .cinema-nav {
-                display: none;
-            }
+            .cinema-grid { grid-template-columns: 1fr; gap: 1.8rem; text-align: center; }
+            .cinema-image-side { transform: translateY(-25px); }
+            .cinema-section.active .cinema-image-side { transform: translateY(0); }
+            .cinema-text-side { transform: translateY(25px); }
+            .cinema-section.active .cinema-text-side { transform: translateY(0); }
+            .desc-line { justify-content: center; }
+            .product-image { max-width: 260px; }
+            .cinema-nav { display: none; }
         }
         
-        /* Soft edge blending for images */
-        .cinema-image-side::before {
+        .cinema-image-side::after {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: radial-gradient(ellipse at center, transparent 60%, rgba(253, 244, 240, 0.15) 100%);
+            background: radial-gradient(ellipse at center, transparent 50%, rgba(253, 244, 240, 0.15) 100%);
             pointer-events: none;
             z-index: 2;
         }
-
+        
         @media (prefers-reduced-motion: reduce) {
             .animated-bg { animation: none; }
             * { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
         }
-
+        
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: #fdf4f0; }
         ::-webkit-scrollbar-thumb { background: #D45A2B; border-radius: 10px; }
         
-        button, .nav-dot, .scroll-hint {
-            cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
+        /* Debug info panel - shows what's happening with images */
+        .debug-panel {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            color: #0f0;
+            font-family: monospace;
+            font-size: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            z-index: 9999;
+            max-width: 300px;
+            pointer-events: none;
+            display: none;
         }
         
-        /* Image error fallback style */
-        .product-image {
-            object-fit: contain;
+        /* Show debug on devices with issues - remove in production */
+        @media (max-width: 1024px) {
+            .debug-panel { display: block; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Animated Background -->
     <div class="animated-bg"></div>
-
-    <!-- Scroll Progress -->
     <div class="cinema-progress" id="progressBar"></div>
+    
+    <!-- Debug panel to help you see what's happening -->
+    <div class="debug-panel" id="debugPanel">
+        🔍 Checking images...
+    </div>
 
-    <!-- Navigation Dots -->
     <div class="cinema-nav">
         <div class="nav-dot active" data-section="0"></div>
         <div class="nav-dot" data-section="1"></div>
@@ -408,12 +313,14 @@
         <div class="nav-dot" data-section="7"></div>
     </div>
 
-    <!-- Hero / Intro Section - intro.jpeg (note .jpeg extension) -->
+    <!-- Hero Section -->
     <section class="cinema-section hero-section" id="section0">
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="intro.jpeg" alt="Dettol Shield of Protection" class="product-image" loading="eager" onerror="this.style.display='block';this.src='https://placehold.co/400x400/fdf4f0/D45A2B?text=Dettol+Intro'">
+                    <img src="intro.jpeg" alt="Dettol" class="product-image" id="img0" 
+                         onerror="this.onerror=null; this.src='intro.jpg'; document.getElementById('debugPanel').innerHTML+='<br>⚠️ intro.jpeg not found, trying intro.jpg'"
+                         onload="document.getElementById('debugPanel').innerHTML+='<br>✅ intro image loaded'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge"><i class="fas fa-shield-alt mr-2"></i> SINCE 1933</span>
@@ -427,18 +334,17 @@
                 </div>
             </div>
         </div>
-        <div class="scroll-hint">
-            <span>SCROLL TO EXPLORE</span>
-            <i class="fas fa-chevron-down"></i>
-        </div>
+        <div class="scroll-hint"><span>SCROLL TO EXPLORE</span><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- Product 1 - Antiseptic Liquid - antiseptic.jpg -->
+    <!-- Product 1 - Antiseptic -->
     <section class="cinema-section" id="section1">
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="antiseptic.jpg" alt="Dettol Antiseptic Liquid" class="product-image" loading="lazy" onerror="this.style.display='block';this.src='https://placehold.co/400x400/fdf4f0/D45A2B?text=Antiseptic+Liquid'">
+                    <img src="antiseptic.jpg" alt="Antiseptic" class="product-image" id="img1"
+                         onerror="this.onerror=null; this.src='antiseptic.jpeg'; document.getElementById('debugPanel').innerHTML+='<br>⚠️ antiseptic.jpg not found'"
+                         onload="document.getElementById('debugPanel').innerHTML+='<br>✅ antiseptic loaded'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">FLAGSHIP PROTECTION</span>
@@ -452,15 +358,17 @@
                 </div>
             </div>
         </div>
-        <div class="scroll-hint"><i class="fas fa-chevron-down"></i><span>Next product</span></div>
+        <div class="scroll-hint"><i class="fas fa-chevron-down"></i><span>Next</span></div>
     </section>
 
-    <!-- Product 2 - Hand Sanitizer - handsr.jpg -->
+    <!-- Product 2 - Hand Sanitizer -->
     <section class="cinema-section" id="section2">
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="handsr.jpg" alt="Dettol Hand Sanitizer" class="product-image" loading="lazy" onerror="this.style.display='block';this.src='https://placehold.co/400x400/fdf4f0/D45A2B?text=Hand+Sanitizer'">
+                    <img src="handsr.jpg" alt="Hand Sanitizer" class="product-image" id="img2"
+                         onerror="this.onerror=null; this.src='handsr.jpeg'; document.getElementById('debugPanel').innerHTML+='<br>⚠️ handsr.jpg not found'"
+                         onload="document.getElementById('debugPanel').innerHTML+='<br>✅ handsr loaded'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">ON-THE-GO DEFENSE</span>
@@ -477,12 +385,14 @@
         <div class="scroll-hint"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- Product 3 - Multi-Surface Spray - mulsurface.jpg -->
+    <!-- Product 3 - Multi-Surface -->
     <section class="cinema-section" id="section3">
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="mulsurface.jpg" alt="Dettol Multi-Surface Spray" class="product-image" loading="lazy" onerror="this.style.display='block';this.src='https://placehold.co/400x400/fdf4f0/D45A2B?text=Multi-Surface+Spray'">
+                    <img src="mulsurface.jpg" alt="Multi-Surface" class="product-image" id="img3"
+                         onerror="this.onerror=null; this.src='mulsurface.jpeg'; document.getElementById('debugPanel').innerHTML+='<br>⚠️ mulsurface.jpg not found'"
+                         onload="document.getElementById('debugPanel').innerHTML+='<br>✅ mulsurface loaded'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">360° SURFACE PROTECTION</span>
@@ -499,12 +409,14 @@
         <div class="scroll-hint"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- Product 4 - Antibacterial Soap - hands.jpg -->
+    <!-- Product 4 - Soap -->
     <section class="cinema-section" id="section4">
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="hands.jpg" alt="Dettol Antibacterial Soap" class="product-image" loading="lazy" onerror="this.style.display='block';this.src='https://placehold.co/400x400/fdf4f0/D45A2B?text=Antibacterial+Soap'">
+                    <img src="hands.jpg" alt="Soap" class="product-image" id="img4"
+                         onerror="this.onerror=null; this.src='hands.jpeg'; document.getElementById('debugPanel').innerHTML+='<br>⚠️ hands.jpg not found'"
+                         onload="document.getElementById('debugPanel').innerHTML+='<br>✅ hands loaded'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">DAILY ESSENTIAL</span>
@@ -521,12 +433,14 @@
         <div class="scroll-hint"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- Product 5 - Surface Wipes - surface.jpg -->
+    <!-- Product 5 - Wipes -->
     <section class="cinema-section" id="section5">
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="surface.jpg" alt="Dettol Surface Wipes" class="product-image" loading="lazy" onerror="this.style.display='block';this.src='https://placehold.co/400x400/fdf4f0/D45A2B?text=Surface+Wipes'">
+                    <img src="surface.jpg" alt="Wipes" class="product-image" id="img5"
+                         onerror="this.onerror=null; this.src='surface.jpeg'; document.getElementById('debugPanel').innerHTML+='<br>⚠️ surface.jpg not found'"
+                         onload="document.getElementById('debugPanel').innerHTML+='<br>✅ surface loaded'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">INSTANT CLEAN</span>
@@ -543,12 +457,14 @@
         <div class="scroll-hint"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- Product 6 - Laundry Sanitizer - laundry.jpg -->
+    <!-- Product 6 - Laundry -->
     <section class="cinema-section" id="section6">
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="laundry.jpg" alt="Dettol Laundry Sanitizer" class="product-image" loading="lazy" onerror="this.style.display='block';this.src='https://placehold.co/400x400/fdf4f0/D45A2B?text=Laundry+Sanitizer'">
+                    <img src="laundry.jpg" alt="Laundry" class="product-image" id="img6"
+                         onerror="this.onerror=null; this.src='laundry.jpeg'; document.getElementById('debugPanel').innerHTML+='<br>⚠️ laundry.jpg not found'"
+                         onload="document.getElementById('debugPanel').innerHTML+='<br>✅ laundry loaded'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">DEEPER CLEAN</span>
@@ -565,12 +481,14 @@
         <div class="scroll-hint"><i class="fas fa-chevron-down"></i></div>
     </section>
 
-    <!-- Science / Trust Section - lab.jpg -->
+    <!-- Science Section -->
     <section class="cinema-section" id="section7">
         <div class="cinema-container">
             <div class="cinema-grid">
                 <div class="cinema-image-side">
-                    <img src="lab.jpg" alt="Dettol Scientific Research" class="product-image" loading="lazy" onerror="this.style.display='block';this.src='https://placehold.co/400x400/fdf4f0/D45A2B?text=Science+Lab'">
+                    <img src="lab.jpg" alt="Lab" class="product-image" id="img7"
+                         onerror="this.onerror=null; this.src='lab.jpeg'; document.getElementById('debugPanel').innerHTML+='<br>⚠️ lab.jpg not found'"
+                         onload="document.getElementById('debugPanel').innerHTML+='<br>✅ lab loaded'">
                 </div>
                 <div class="cinema-text-side">
                     <span class="cinema-badge">THE SCIENCE BEHIND</span>
@@ -586,7 +504,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="text-center py-8 text-gray-600 text-sm relative z-10 bg-[#fdf4f0]/50 backdrop-blur-sm mt-4">
         <div class="max-w-6xl mx-auto px-4">
             <i class="fas fa-shield-virus text-2xl text-[#D45A2B] mb-3 block opacity-80"></i>
@@ -605,47 +522,34 @@
             const sections = document.querySelectorAll('.cinema-section');
             const navDots = document.querySelectorAll('.nav-dot');
             const progressBar = document.getElementById('progressBar');
+            const debugPanel = document.getElementById('debugPanel');
             
-            // Log image paths for debugging (remove in production)
-            console.log('Looking for images in current directory:');
-            const images = document.querySelectorAll('.product-image');
-            images.forEach(img => {
-                console.log('Image src:', img.src);
-            });
-            
-            let ticking = false;
+            // Update debug panel with current directory info
+            debugPanel.innerHTML = '📁 Current page location: ' + window.location.href + '<br>';
+            debugPanel.innerHTML += '🔍 Looking for images in same folder...<br>';
             
             function updateActiveSection() {
                 const scrollPosition = window.scrollY + window.innerHeight * 0.42;
-                
                 sections.forEach((section, index) => {
                     const sectionTop = section.offsetTop;
                     const sectionBottom = sectionTop + section.offsetHeight;
-                    
                     if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-                        if (!section.classList.contains('active')) {
-                            section.classList.add('active');
-                        }
+                        section.classList.add('active');
                         navDots.forEach(dot => dot.classList.remove('active'));
                         if (navDots[index]) navDots[index].classList.add('active');
                     } else {
-                        if (section.classList.contains('active')) {
-                            section.classList.remove('active');
-                        }
+                        section.classList.remove('active');
                     }
                 });
-                
                 const totalHeight = document.body.scrollHeight - window.innerHeight;
                 const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
                 progressBar.style.width = Math.min(100, Math.max(0, progress)) + '%';
             }
             
+            let ticking = false;
             window.addEventListener('scroll', () => {
                 if (!ticking) {
-                    requestAnimationFrame(() => {
-                        updateActiveSection();
-                        ticking = false;
-                    });
+                    requestAnimationFrame(() => { updateActiveSection(); ticking = false; });
                     ticking = true;
                 }
             });
@@ -655,46 +559,46 @@
                 if (sections[0]) sections[0].classList.add('active');
             }, 100);
             
-            // Navigation dot click
             navDots.forEach((dot, index) => {
                 dot.addEventListener('click', () => {
-                    if (sections[index]) {
-                        sections[index].scrollIntoView({ 
-                            behavior: 'smooth', 
-                            block: 'start',
-                            inline: 'nearest'
-                        });
-                    }
+                    if (sections[index]) sections[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
                 });
             });
             
-            // Scroll hint click
             const scrollHints = document.querySelectorAll('.scroll-hint');
             scrollHints.forEach((hint, idx) => {
                 hint.addEventListener('click', (e) => {
                     e.preventDefault();
                     const nextSection = sections[idx + 1];
-                    if (nextSection) {
-                        nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
+                    if (nextSection) nextSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 });
             });
             
-            // Preload background
-            const bgImg = new Image();
-            bgImg.src = 'foambg.jpg';
-            
-            window.addEventListener('resize', () => {
-                setTimeout(updateActiveSection, 100);
-            });
-            
-            window.addEventListener('orientationchange', () => {
-                setTimeout(updateActiveSection, 200);
-            });
-            
+            // Final image check after load
             window.addEventListener('load', () => {
-                document.body.classList.add('loaded');
-                updateActiveSection();
+                const images = document.querySelectorAll('.product-image');
+                let loaded = 0, failed = 0;
+                images.forEach((img, i) => {
+                    if (img.complete && img.naturalHeight !== 0) {
+                        loaded++;
+                        debugPanel.innerHTML += `✅ Image ${i+1}: ${img.src.split('/').pop()} - OK<br>`;
+                    } else {
+                        failed++;
+                        debugPanel.innerHTML += `❌ Image ${i+1}: ${img.src.split('/').pop()} - NOT FOUND<br>`;
+                    }
+                });
+                debugPanel.innerHTML += `<br>📊 Total: ${loaded} loaded, ${failed} failed<br>`;
+                if (failed > 0) {
+                    debugPanel.innerHTML += `<br>⚠️ TROUBLESHOOTING:<br>`;
+                    debugPanel.innerHTML += `1. Make sure ALL images are in the SAME folder as this HTML file<br>`;
+                    debugPanel.innerHTML += `2. Check exact filenames (case-sensitive):<br>`;
+                    debugPanel.innerHTML += `   intro.jpeg, antiseptic.jpg, handsr.jpg, mulsurface.jpg, hands.jpg, surface.jpg, laundry.jpg, lab.jpg<br>`;
+                    debugPanel.innerHTML += `3. Try renaming intro.jpeg to intro.jpg (or vice versa)<br>`;
+                    debugPanel.innerHTML += `4. Open browser console (F12) for more details<br>`;
+                }
+                debugPanel.style.maxHeight = '400px';
+                debugPanel.style.overflow = 'auto';
+                debugPanel.style.fontSize = '9px';
             });
         })();
     </script>
